@@ -25,12 +25,12 @@ public class Hospital {
         HospitalId = hospitalId;
     }
 
-    public String getOwnerId() {
+    public String getOwnerName() {
         return ownerName;
     }
 
-    public void setOwnerId(String ownerId) {
-        this.ownerName = ownerId;
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 
     public String getHospitalName() {

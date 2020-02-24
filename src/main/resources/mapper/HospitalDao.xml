@@ -3,10 +3,121 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dao.HospitalDao">
+    <resultMap id="hospitalMap" type="entity.Hospital">
+        <id column="hospital_id" property="hospitalId"/>
+        <result column="hospital_name" property="hospitalName"/>
+        <result column="owner_name" property="ownerName"/>
+        <result column="hospital_desc" property="hospitalDesc"/>
+        <result column="hospital_addr" property="hospitalAddr" />
+        <result column="phone" property="phone" />
+        <result column="hospital_img" property="hospitalImg" />
+        <result column="priority" property="priority" />
+        <result column="create_time" property="createTime" />
+        <result column="last_edit_time" property="lastEditTime" />
+        <result column="enable_status" property="enableStatus" />
+        <association property="area" column="area_id" javaType="entity.Area">
+            <id column="area_id" property="areaId"/>
+            <result column="area_name" property="areaName"/>
+        </association>
+    </resultMap>
     <insert id="insertHospital" useGeneratedKeys="true" keyColumn="hospital_id" keyProperty="HospitalId">
         INSERT INTO
         tb_hospital(owner_name,area_id,hospital_name,hospital_desc,hospital_addr,phone,hospital_img,priority,create_time,last_edit_time,enable_status)
         values
         (#{ownerName},#{area.areaId},#{hospitalName},#{hospitalDesc},#{hospitalAddr},#{phone},#{hospitalImg},#{priority},#{createTime},#{lastEditTime},#{enableStatus})
     </insert>
+    <update id="updateHospital" parameterType="entity.Hospital">
+        update tb_hospital
+        <set>
+            <if test="ownerName !=null">owner_name=#{ownerName},</if>
+            <if test="hospitalName !=null">hospital_name=#{hospitalName},</if>
+            <if test="hospitalDesc !=null">hospital_desc=#{hospitalDesc},</if>
+            <if test="hospitalAddr !=null">hospital_addr=#{hospitalAddr},</if>
+            <if test="phone !=null">phone=#{phone},</if>
+            <if test="hospitalImg !=null">hospital_img=#{hospitalImg},</if>
+            <if test="priority !=null">priority=#{priority},</if>
+            <if test="createTime!=null">create_time=#{createTime},</if>
+            <if test="lastEditTime!=null">last_edit_time=#{lastEditTime},</if>
+            <if test="enableStatus!=null">enable_status=#{enableStatus},</if>
+        </set>
+        where hospital_id=#{hospitalId}
+    </update>
+    <select id="queryByHospitalId" resultMap="hospitalMap" parameterType="Long">
+        SELECT
+        h.hospital_id,
+        h.hospital_name,
+        h.hospital_desc,
+        h.hospital_addr,
+        h.owner_name,
+        h.phone,
+        h.hospital_img,
+        h.priority,
+        h.create_time,
+        h.last_edit_time,
+        h.enable_status,
+        a.area_id,
+        a.area_name
+        FROM
+        tb_hospital h,
+        tb_area a
+        WHERE
+        h.area_id = a.area_id
+        AND
+        h.hospital_id = #{hospitalId}
+    </select>
+    <select id="queryHospitalList" resultMap="hospitalMap">
+        SELECT
+        h.hospital_id,
+        h.hospital_name,
+        h.hospital_desc,
+        h.hospital_addr,
+        h.owner_name,
+        h.phone,
+        h.hospital_img,
+        h.priority,
+        h.create_time,
+        h.last_edit_time,
+        h.enable_status,
+        a.area_id,
+        a.area_name
+        FROM
+        tb_hospital h,
+        tb_area a
+        <where>
+            <if test="hospitalCondition.area!=null and hospitalCondition.area.areaId!=null">
+                and h.area_id = #{hospitalCondition.area.areaId}
+            </if>
+            <if test="hospitalCondition.hospitalName!=null">
+                and h.hospital_name like '%${hospitalCondition.hospitalName}%'
+            </if>
+            <if test="hospitalCondition.enableStatus!=null">
+                and h.enable_status = #{hospitalCondition.enableStatus}
+            </if>
+        </where>
+        AND
+        h.area_id=a.area_id
+        ORDER BY
+        h.priority DESC
+        LIMIT #{rowIndex},#{pageSize};
+    </select>
+    <select id="queryHospitalCount" resultType="int">
+        SELECT
+        count(1)
+        FROM
+        tb_hospital h,
+        tb_area a
+        <where>
+        <if test="hospitalCondition.area!=null and hospitalCondition.area.areaId!=null">
+            and h.area_id = #{hospitalCondition.area.areaId}
+        </if>
+        <if test="hospitalCondition.hospitalName!=null">
+            and h.hospital_name like '%${hospitalCondition.hospitalName}%'
+        </if>
+        <if test="hospitalCondition.enableStatus!=null">
+            and h.enable_status = #{hospitalCondition.enableStatus}
+        </if>
+    </where>
+    AND
+    h.area_id=a.area_id
+    </select>
 </mapper>
