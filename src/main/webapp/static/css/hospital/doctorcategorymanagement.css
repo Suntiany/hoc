@@ -1,16 +1,15 @@
-.row-product-category{
+.row-doctor-category{
     border: 1px solid #999;
     padding:.5rem;
     border-bottom:none;
 }
-.row-product-category:last-child{
+.row-doctor-category:last-child{
     border-bottom: 1px solid #999;
 }
 .category-input{
     border:none;
     background-color:#eee;
 }
-.product-category-name{
+.doctor-category-name{
     white-space: nowrap;
-    overflow-x:scroll;
 }

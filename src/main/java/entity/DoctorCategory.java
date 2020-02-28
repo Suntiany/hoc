@@ -7,6 +7,16 @@ public class DoctorCategory {
     private String doctorCategoryName;
     private int priority;
     private Date createTime;
+    private Date lastEditTime;
+
+    public Date getLastEditTime() {
+        return lastEditTime;
+    }
+
+    public void setLastEditTime(Date lastEditTime) {
+        this.lastEditTime = lastEditTime;
+    }
+
     private Long hospitalId;
 
     public Long getDoctorCategoryId() {

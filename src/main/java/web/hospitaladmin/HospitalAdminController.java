@@ -19,4 +19,8 @@ public class HospitalAdminController {
     public String shopManagement(){
         return "hospital/hospitalmanagement";
     }
+    @RequestMapping(value="/doctorcategorymanagement",method = RequestMethod.GET)
+    private String doctorCategoryManage() {
+        return "hospital/doctorcategorymanagement";
+    }
 }

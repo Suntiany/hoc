@@ -1,7 +1,7 @@
 $(function(){
-    var listUrl = '/o2o/shopadmin/getproductcategorylist';
-    var addUrl = '/o2o/shopadmin/addproductcategorys';
-    var deleteUrl = '/o2o/shopadmin/removeproductcategory';
+    var listUrl = '/hoc/hospitaladmin/getdoctorcategory';
+    var addUrl = '/hoc/hospitaladmin/adddoctorcategorys';
+    var deleteUrl = '/hoc/hospitaladmin/removedoctorcategory';
     getList();
     function getList() {
         $.getJSON(
@@ -14,15 +14,15 @@ $(function(){
                     var tempHtml='';
                     dataList.map(function(item,index){
                         tempHtml += ''
-                            + '<div class="row row-product-category now">'
-                            + '<div class="col-33 product-category-name">'
-                            + item.productCategoryName
+                            + '<div class="row row-doctor-category now">'
+                            + '<div class="col-33 doctor-category-name">'
+                            + item.doctorCategoryName
                             + '</div>'
                             + '<div class="col-33">'
                             + item.priority
                             + '</div>'
                             + '<div class="col-33"><a href="#" class="button delete" data-id="'
-                            + item.productCategoryId
+                            + item.doctorCategoryId
                             + '">删除</a></div>'
                             + '</div>';
                     });
@@ -34,7 +34,7 @@ $(function(){
         $('#new')
             .click(
                 function() {
-                    var tempHtml = '<div class="row row-product-category temp">'
+                    var tempHtml = '<div class="row row-doctor-category temp">'
                         + '<div class="col-33"><input class="category-input category" type="text" placeholder="分类名"></div>'
                         + '<div class="col-33"><input class="category-input priority" type="number" placeholder="优先级"></div>'
                         + '<div class="col-33"><a href="#" class="button delete">删除</a></div>'
@@ -44,19 +44,19 @@ $(function(){
 
         $('#submit').click(function() {
             var tempArr = $('.temp');
-            var productCategoryList = [];
+            var doctorCategoryList = [];
             tempArr.map(function(index, item) {
                 var tempObj = {};
-                tempObj.productCategoryName = $(item).find('.category').val();
+                tempObj.doctorCategoryName = $(item).find('.category').val();
                 tempObj.priority = $(item).find('.priority').val();
-                if (tempObj.productCategoryName && tempObj.priority) {
-                    productCategoryList.push(tempObj);
+                if (tempObj.doctorCategoryName && tempObj.priority) {
+                    doctorCategoryList.push(tempObj);
                 }
             });
             $.ajax({
                 url : addUrl,
                 type : 'POST',
-                data : JSON.stringify(productCategoryList),
+                data : JSON.stringify(doctorCategoryList),
                 contentType : 'application/json',
                 success : function(data) {
                     if (data.success) {
@@ -69,14 +69,14 @@ $(function(){
             });
         });
 
-    $('.category-wrap').on('click', '.row-product-category.temp .delete',
+    $('.category-wrap').on('click', '.row-doctor-category.temp .delete',
         function(e) {
             console.log($(this).parent().parent());
             $(this).parent().parent().remove();
 
         });
 
-    $('.category-wrap').on('click', '.row-product-category.now .delete',
+    $('.category-wrap').on('click', '.row-doctor-category.now .delete',
         function(e) {
             var target = e.currentTarget;
             $.confirm('确定么?', function() {
@@ -84,7 +84,7 @@ $(function(){
                     url : deleteUrl,
                     type : 'POST',
                     data : {
-                        productCategoryId : target.dataset.id
+                        doctorCategoryId : target.dataset.id
                     },
                     dataType : 'json',
                     success : function(data) {

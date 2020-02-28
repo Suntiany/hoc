@@ -47,7 +47,7 @@ public class HospitalManagementController {
             Object currentHospitalObj = request.getSession().getAttribute("currentHospital");
             if(currentHospitalObj==null){
                 modelMap.put("redirect",true);
-                modelMap.put("url","/hoc/hospital/hospitallist");
+                modelMap.put("url","/hoc/hospitaladmin/hospitallist");
             }else{
                 Hospital currentHospital = (Hospital) currentHospitalObj;
                 modelMap.put("redirect",false);
@@ -56,7 +56,7 @@ public class HospitalManagementController {
         }else{
             Hospital currentHospital = new Hospital();
             currentHospital.setHospitalId(hospitalId);
-            request.getSession().setAttribute("currengHospital",currentHospital);
+            request.getSession().setAttribute("currentHospital",currentHospital);
             modelMap.put("redirect",false);
         }
         return modelMap;
@@ -83,7 +83,6 @@ public class HospitalManagementController {
         }
         return modelMap;
     }
-
 
     @RequestMapping(value="/gethospitalinitinfo",method=RequestMethod.GET)
     @ResponseBody

@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>商店管理</title>
+    <title>科室管理</title>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <link rel="shortcut icon" href="/favicon.ico">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -13,34 +12,39 @@
           href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
     <link rel="stylesheet"
           href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
-    <link rel="stylesheet" href="../static/css/hospital/hospitalmanagement.css">
+    <link rel="stylesheet"
+          href="../static/css/hospital/doctorcategorymanagement.css">
 </head>
 <body>
 <header class="bar bar-nav">
-    <h1 class="title">商店管理</h1>
+    <a class="button button-link button-nav pull-left back"
+       href="javascript:history.back(-1)"> <span class="icon icon-left"></span> 返回
+    </a>
+    <h1 class="title">科室管理</h1>
 </header>
 <div class="content">
     <div class="content-block">
+        <div class="row row-doctor-category">
+            <div class="col-33">科室名</div>
+            <div class="col-33">优先级</div>
+            <div class="col-33">操作</div>
+        </div>
+        <div class="category-wrap"></div>
+    </div>
+    <div class="content-block">
         <div class="row">
-            <div class="col-50 mb">
-                <a id="hospitalInfo" href="/hoc/hospitaladmin/hospitaloperation"
-                   class="button button-big button-fill">医院信息</a>
+            <div class="col-50">
+                <a href="#" class="button button-big button-fill button-success"
+                   id="new">新增</a>
             </div>
-            <div class="col-50 mb">
-                <a href="/o2o/shopadmin/productmanagement"
-                   class="button button-big button-fill">医生管理</a>
-            </div>
-            <div class="col-50 mb">
-                <a href="/hoc/hospitaladmin/doctorcategorymanagement"
-                   class="button button-big button-fill">科室管理</a>
-            </div>
-            <div class="col-100 mb">
-                <a href="/hoc/hospitaladmin/hospitallist"
-                   class="button button-big button-fill button-danger">返回</a>
+            <div class="col-50">
+                <a href="#" class="button button-big button-fill" id="submit">提交</a>
             </div>
         </div>
     </div>
 </div>
+
+
 
 <script type='text/javascript'
         src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
@@ -49,8 +53,7 @@
 <script type='text/javascript'
         src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
 <script type='text/javascript'
-        src='../static/js/common/common.js' charset='utf-8'></script>
-<script type='text/javascript' src='../static/js/hospital/hospitalmanagement.js'
+        src='../static/js/hospital/doctorcategorymanagement.js'
         charset='utf-8'></script>
 </body>
 </html>

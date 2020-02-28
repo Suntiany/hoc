@@ -6,7 +6,6 @@ $(function() {
             window.location.href = data.url;
         } else {
             if (data.hospitalId != undefined && data.hospitalId != null) {
-                console.log(data.hospitalId);
                 hospitalIdId = data.hospitalId;
             }
             $('#hospitalInfo')
