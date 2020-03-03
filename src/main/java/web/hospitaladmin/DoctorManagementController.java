@@ -193,7 +193,7 @@ public class DoctorManagementController {
             modelMap.put("errMsg", e.toString());
             return modelMap;
         }
-        if(doctor!=null && thumbnail!=null && doctorImgList.size()>0) {
+        if(doctor!=null) {
             try{
                 //从session中获取当前医院的id并赋值给doctor,减少对前端数据的依赖
                 Hospital currentHospital = (Hospital)request.getSession().getAttribute("currentHospital");

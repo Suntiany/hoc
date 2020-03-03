@@ -1,22 +1,22 @@
 $(function() {
-	// 从URL里获取productId参数的值
-	var productId = getQueryString('productId');
-	// 通过productId获取商品信息的URL
-	var infoUrl = '/o2o/shopadmin/getproductbyid?productId=' + productId;
+	// 从URL里获取doctorId参数的值
+	var doctorId = getQueryString('doctorId');
+	// 通过doctorId获取商品信息的URL
+	var infoUrl = '/hoc/hospitaladmin/getdoctorbyid?doctorId=' + doctorId;
 	// 获取当前店铺设定的商品类别列表的URL
-	var categoryUrl = '/o2o/shopadmin/getproductcategorylist';
+	var categoryUrl = '/hoc/hospitaladmin/getdoctorcategorylist';
 	// 更新商品信息的URL
-	var productPostUrl = '/o2o/shopadmin/modifyproduct';
+	var doctorPostUrl = '/hoc/hospitaladmin/modifydoctor';
 	// 由于商品添加和编辑使用的是同一个页面，
 	// 该标识符用来标明本次是添加还是编辑操作
 	var isEdit = false;
-	if (productId) {
-		// 若有productId则为编辑操作
-		getInfo(productId);
+	if (doctorId) {
+		// 若有doctorId则为编辑操作
+		getInfo(doctorId);
 		isEdit = true;
 	} else {
 		getCategory();
-		productPostUrl = '/o2o/shopadmin/addproduct';
+		doctorPostUrl = '/hoc/hospitaladmin/adddoctor';
 	}
 
 	// 获取需要编辑的商品的商品信息，并赋值给表单
@@ -26,30 +26,26 @@ $(function() {
 						infoUrl,
 						function(data) {
 							if (data.success) {
-								// 从返回的JSON当中获取product对象的信息，并赋值给表单
-								var product = data.product;
-								$('#product-name').val(product.productName);
-								$('#product-desc').val(product.productDesc);
-								$('#priority').val(product.priority);
-								$('#point').val(product.point);
-								$('#normal-price').val(product.normalPrice);
-								$('#promotion-price').val(
-										product.promotionPrice);
-								// 获取原本的商品类别以及该店铺的所有商品类别列表
+								// 从返回的JSON当中获取doctor对象的信息，并赋值给表单
+								var doctor = data.doctor;
+								$('#doctor-name').val(doctor.doctorName);
+								$('#doctor-desc').val(doctor.doctorDesc);
+								$('#priority').val(doctor.priority);
+								// $('#point').val(doctor.point);
 								var optionHtml = '';
-								var optionArr = data.productCategoryList;
-								var optionSelected = product.productCategory.productCategoryId;
+								var optionArr = data.doctorCategoryList;
+								var optionSelected = doctor.doctorCategory.doctorCategoryId;
 								// 生成前端的HTML商品类别列表，并默认选择编辑前的商品类别
 								optionArr
 										.map(function(item, index) {
-											var isSelect = optionSelected === item.productCategoryId ? 'selected'
+											var isSelect = optionSelected === item.doctorCategoryId ? 'selected'
 													: '';
 											optionHtml += '<option data-value="'
-													+ item.productCategoryId
+													+ item.doctorCategoryId
 													+ '"'
 													+ isSelect
 													+ '>'
-													+ item.productCategoryName
+													+ item.doctorCategoryName
 													+ '</option>';
 										});
 								$('#category').html(optionHtml);
@@ -61,12 +57,12 @@ $(function() {
 	function getCategory() {
 		$.getJSON(categoryUrl, function(data) {
 			if (data.success) {
-				var productCategoryList = data.data;
+				var doctorCategoryList = data.data;
 				var optionHtml = '';
-				productCategoryList.map(function(item, index) {
+				doctorCategoryList.map(function(item, index) {
 					optionHtml += '<option data-value="'
-							+ item.productCategoryId + '">'
-							+ item.productCategoryName + '</option>';
+							+ item.doctorCategoryId + '">'
+							+ item.doctorCategoryName + '</option>';
 				});
 				$('#category').html(optionHtml);
 			}
@@ -85,21 +81,18 @@ $(function() {
 	$('#submit').click(
 			function() {
 				// 创建商品json对象，并从表单里面获取对应的属性值
-				var product = {};
-				product.productName = $('#product-name').val();
-				product.productDesc = $('#product-desc').val();
-				product.priority = $('#priority').val();
-				product.point = $('#point').val();
-				product.normalPrice = $('#normal-price').val();
-				product.promotionPrice = $('#promotion-price').val();
+				var doctor = {};
+				doctor.doctorName = $('#doctor-name').val();
+				doctor.doctorDesc = $('#doctor-desc').val();
+				doctor.priority = $('#priority').val();
 				// 获取选定的商品类别值
-				product.productCategory = {
-					productCategoryId : $('#category').find('option').not(
+				doctor.doctorCategory = {
+					doctorCategoryId : $('#category').find('option').not(
 							function() {
 								return !this.selected;
 							}).data('value')
 				};
-				product.productId = productId;
+				doctor.doctorId = doctorId;
 
 				// 获取缩略图文件流
 				var thumbnail = $('#small-img')[0].files[0];
@@ -111,13 +104,13 @@ $(function() {
 						function(index, item) {
 							// 判断该控件是否已选择了文件
 							if ($('.detail-img')[index].files.length > 0) {
-								// 将第i个文件流赋值给key为productImgi的表单键值对里
-								formData.append('productImg' + index,
+								// 将第i个文件流赋值给key为DoctorImgi的表单键值对里
+								formData.append('doctorImg' + index,
 										$('.detail-img')[index].files[0]);
 							}
 						});
-				// 将product json对象转成字符流保存至表单对象key为productStr的的键值对里
-				formData.append('productStr', JSON.stringify(product));
+				// 将doctor json对象转成字符流保存至表单对象key为doctorStr的的键值对里
+				formData.append('doctorStr', JSON.stringify(doctor));
 				// 获取表单里输入的验证码
 				var verifyCodeActual = $('#j_captcha').val();
 				if (!verifyCodeActual) {
@@ -127,7 +120,7 @@ $(function() {
 				formData.append("verifyCodeActual", verifyCodeActual);
 				// 将数据提交至后台处理相关操作
 				$.ajax({
-					url : productPostUrl,
+					url : doctorPostUrl,
 					type : 'POST',
 					data : formData,
 					contentType : false,

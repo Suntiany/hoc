@@ -23,4 +23,12 @@ public class HospitalAdminController {
     private String doctorCategoryManage() {
         return "hospital/doctorcategorymanagement";
     }
+    @RequestMapping(value="/doctoroperation")
+    private String doctorOperation(){
+        return "hospital/doctoroperation";
+    }
+    @RequestMapping(value="doctormanagement")
+    public String doctorManagement() {
+        return "hospital/doctormanagement";
+    }
 }

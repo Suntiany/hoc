@@ -85,7 +85,7 @@
         UPDATE
         tb_doctor
         SET
-        doctot_category_id=null
+        doctor_category_id=5
         WHERE doctor_category_id=#{doctorCategoryId}
     </update>
     <delete id="deleteDoctor">

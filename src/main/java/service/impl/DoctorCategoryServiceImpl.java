@@ -1,6 +1,7 @@
 package service.impl;
 
 import dao.DoctorCategoryDao;
+import dao.DoctorDao;
 import dto.DoctorCategoryExecution;
 import entity.DoctorCategory;
 import enums.DoctorCategoryStateEnum;
@@ -15,6 +16,8 @@ import java.util.List;
 public class DoctorCategoryServiceImpl implements DoctorCategoryService {
     @Autowired
     private DoctorCategoryDao doctorCategoryDao;
+    @Autowired
+    private DoctorDao doctorDao;
     @Override
     public List<DoctorCategory> getDoctorCategoryList(long hospitalId) {
         return doctorCategoryDao.queryDoctorCategoryList(hospitalId);
@@ -41,7 +44,14 @@ public class DoctorCategoryServiceImpl implements DoctorCategoryService {
     @Override
     public DoctorCategoryExecution deleteDoctorCategory(long doctorCategoryId, long hospitalId) throws DoctorCategoryOperationException {
         //1.解除tb_doctor里的医生与科室之间的关联
-        // to do
+        try{
+            int effectedNum = doctorDao.updateDoctorCategoryToNull(doctorCategoryId);
+            if(effectedNum<0) {
+                throw new DoctorCategoryOperationException("科室类别更新失败");
+            }
+        }catch (Exception e) {
+            throw new DoctorCategoryOperationException("deleteDoctorCategory error" + e.getMessage());
+        }
         //2.删除该productCategory
         try{
             int effectedNum = doctorCategoryDao.deleteDoctorCategory(doctorCategoryId,hospitalId);

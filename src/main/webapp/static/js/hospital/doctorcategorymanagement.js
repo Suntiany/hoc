@@ -1,5 +1,5 @@
 $(function(){
-    var listUrl = '/hoc/hospitaladmin/getdoctorcategory';
+    var listUrl = '/hoc/hospitaladmin/getdoctorcategorylist';
     var addUrl = '/hoc/hospitaladmin/adddoctorcategorys';
     var deleteUrl = '/hoc/hospitaladmin/removedoctorcategory';
     getList();

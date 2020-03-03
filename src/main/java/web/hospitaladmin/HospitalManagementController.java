@@ -66,10 +66,10 @@ public class HospitalManagementController {
     @ResponseBody
     private Map<String,Object> getHospitalList(HttpServletRequest request) {
         Map<String,Object> modelMap = new HashMap<String, Object>();
-        //Integer areaId = HttpServletRequestUtil.getInt(request,"areaId");
+        Integer areaId = (Integer) request.getSession().getAttribute("areaId");
         Hospital hospitalCondition = new Hospital();
         Area area = new Area();
-        area.setAreaId(1);
+        area.setAreaId(areaId);
         hospitalCondition.setArea(area);
         try{
             HospitalExecution he = hospitalService.getHospitalList(hospitalCondition,0,100);
