@@ -85,5 +85,6 @@ public class AreaAuthController {
             modelMap.put("errMsg", "输入了错误的验证码");
             return modelMap;
         }
+        return modelMap;
     }
 }
