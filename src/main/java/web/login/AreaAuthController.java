@@ -69,22 +69,5 @@ public class AreaAuthController {
         return modelMap;
     }
 
-    @RequestMapping(value = "/changelocalpwd", method = RequestMethod.POST)
-    @ResponseBody
-    /**
-     * 修改密码
-     *
-     * @param request
-     * @return
-     */
-    private Map<String, Object> changeLocalPwd(HttpServletRequest request) {
-        Map<String, Object> modelMap = new HashMap<String, Object>();
-        // 验证码校验
-        if (!CodeUtil.checkVerifyCode(request)) {
-            modelMap.put("success", false);
-            modelMap.put("errMsg", "输入了错误的验证码");
-            return modelMap;
-        }
-        return modelMap;
-    }
+
 }
