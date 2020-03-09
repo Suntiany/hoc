@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.AreaAuthDao">
+    <resultMap id="AreaAuthResultMap" type="entity.AreaAuth">
+        <id column="local_area_id" property="localAreaId"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_edit_time" property="lastEditTime"/>
+        <association property="area" column="area_id" javaType="entity.Area">
+            <id column="area_id" property="areaId"/>
+            <result column="area_name" property="areaName"/>
+        </association>
+    </resultMap>
+   <select id="login" resultMap="AreaAuthResultMap" parameterType="String">
+        SELECT
+        l.local_area_id,
+        l.username,
+        l.password,
+        l.area_id,
+        l.create_time,
+        l.last_edit_time,
+        a.area_id,
+        a.area_name
+        FROM
+        tb_area_auth l
+        lEFT
+        JOIN
+        tb_area a
+        ON l.area_id=a.area_id
+        WHERE
+        l.username=#{username}
+        AND
+        l.password=#{password}
+   </select>
+    <update id="updateAreaAuth">
+        update tb_area_auth
+        <set>
+            <if test="newPassword!=null">password=#{newPassword},</if>
+            <if test="lastEditTime!=null">last_edit_time=#{lastEditTime}</if>
+        </set>
+        where area_id=#{areaId}
+        AND username=#{username}
+        AND password=#{password}
+    </update>
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.DoctorImgDao">
+    <insert id="batchInsertDoctorImg" parameterType="java.util.List">
+        INSERT INTO
+        tb_doctor_img(img_addr,img_desc,priority,create_time,doctor_id)
+        VALUES
+        <foreach collection="list" item="doctorImg" index="index" separator=",">
+            (
+            #{doctorImg.imgAddr},
+            #{doctorImg.imgDesc},
+            #{doctorImg.priority},
+            #{doctorImg.createTime},
+            #{doctorImg.doctorId}
+            )
+        </foreach>
+    </insert>
+    <select id="queryDoctorImgList" resultType="entity.DoctorImg">
+        SELECT
+        doctor_img_id,
+        img_addr,
+        img_desc,
+        priority,
+        create_time,
+        doctor_id
+        FROM tb_doctor_img
+        where doctor_id=#{doctorId}
+        ORDER BY
+        doctor_img_id
+    </select>
+    <delete id="deleteDoctorImgByDoctorId">
+        DELETE FROM
+        tb_doctor_img
+        WHERE
+        doctor_id = #{doctorId}
+    </delete>
+</mapper>

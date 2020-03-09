@@ -1,0 +1,15 @@
+.row-doctor {
+    border: 1px solid #999;
+    padding: .1rem;
+    border-bottom: none;
+}
+.row-doctor:last-child {
+    border-bottom: 1px solid #999;
+}
+.doctor-name {
+    white-space: nowrap;
+    overflow-x: scroll;
+}
+.doctor-wrap a {
+    margin-right: 1rem;
+}

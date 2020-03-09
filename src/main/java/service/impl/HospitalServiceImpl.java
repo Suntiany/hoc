@@ -116,4 +116,18 @@ public class HospitalServiceImpl implements HospitalService {
         }
         return he;
     }
+
+    @Override
+    public HospitalExecution getAllHospitalList(Hospital hospitalCondition, int pageIndex, int pageSize) {
+        int rowIndex = PageCalculator.calculateRowIndex(pageIndex,pageSize);
+        hospitalCondition.setEnableStatus(1);
+        List<Hospital> hospitalList = hospitalDao.allHospitalList(hospitalCondition,rowIndex,pageSize);
+        HospitalExecution he = new HospitalExecution();
+        if(hospitalList!=null){
+            he.setHospitalList(hospitalList);
+        }else{
+            he.setState(HospitalStateEnum.INNER_ERROR.getState());
+        }
+        return he;
+    }
 }

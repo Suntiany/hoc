@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.FriendDao">
+    <resultMap id="friend" type="entity.Friend">
+        <id column="friend_id" property="friendId"/>
+        <result column="user_follow" property="userFollow"/>
+        <result column="hospital_follow" property="hospitalFollow"/>
+        <association property="user" column="user_id" javaType="entity.User">
+            <id column="user_id" property="userId"/>
+            <result column="user_name" property="userName"/>
+        </association>
+        <association property="hospital" column="hospital_id" javaType="entity.Hospital">
+            <id column="hospital_id" property="hospitalId"/>
+            <result column="hospital_name" property="hospitalName"/>
+        </association>
+    </resultMap>
+    <insert id="insertFriend" useGeneratedKeys="true" keyProperty="friendId" keyColumn="friend_id" parameterType="entity.Friend">
+        INSERT INTO tb_friend(user_id,hospital_id,user_follow,hospital_follow)
+        VALUES (#{userId},#{hospitalId},#{userFollow},#{hospitalFollow})
+    </insert>
+    <update id="updateFriend" parameterType="entity.Friend" keyColumn="friend_id" useGeneratedKeys="true">
+        update tb_friend
+        <set>
+            <if test="userId !=null">user_id=#{userId},</if>
+            <if test="hospitalId !=null">hospital_id=#{hospitalId},</if>
+            <if test="userFollow !=null">user_follow=#{userFollow},</if>
+            <if test="hospitalFollow !=null">hospital_follow=#{hospitalFollow}</if>
+        </set>
+        WHERE hospital_id=#{hospitalId}
+    </update>
+    <delete id="delete" parameterType="entity.Friend">
+        delete from tb_friend WHERE user_id=#{userId} AND hospital_id=#{hospitalId}
+    </delete>
+    <select id="selectByHospitalId" resultMap="friend" parameterType="Integer">
+        SELECT
+        f.*,
+        u.user_name,
+        u.addr,
+        h.hospital_name
+        FROM tb_friend f
+        LEFT JOIN tb_user u on u.user_id = f.user_id
+        LEFT JOIN tb_hospital h on h.hospital_id = f.hospital_id
+        WHERE f.hospital_id=#{hospitalId}
+    </select>
+    <select id="selectByUserId" resultMap="friend" parameterType="Integer">
+       SELECT
+        f.*,
+        u.user_name,
+        u.addr,
+        h.hospital_name
+        FROM tb_friend f
+        LEFT JOIN tb_user u on u.user_id = f.user_id
+        LEFT JOIN tb_hospital h on h.hospital_id = f.hospital_id
+        WHERE f.user_id=#{userId}
+    </select>
+</mapper>

@@ -43,5 +43,14 @@ public interface HospitalDao {
      * @return
      */
     int queryHospitalCount(@Param("hospitalCondition") Hospital hospitalCondition);
+
+    /**
+     * 获取数据库中所有医院的列表
+     * @param hospital
+     * @param rowIndex
+     * @param pageSize
+     * @return
+     */
+    List<Hospital> allHospitalList(@Param("hospitalCondition") Hospital hospital,@Param("rowIndex") int rowIndex,@Param("pageSize") int pageSize);
 }
 

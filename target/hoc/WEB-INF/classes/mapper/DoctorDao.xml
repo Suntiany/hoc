@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.DoctorDao">
+    <resultMap id="doctorMap" type="entity.Doctor">
+        <id column="doctor_id" property="doctorId"/>
+        <result column="doctor_name" property="doctorName"/>
+        <result column="doctor_desc" property="doctorDesc"/>
+        <result column="img_addr" property="imgAddr" />
+        <result column="priority" property="priority"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_edit_time" property="lastEditTime" />
+        <result column="enable_status" property="enableStatus" />
+        <!--TODO   <result column = "point" property="point"/>-->
+        <association property="doctorCategory" column="doctor_category_id" javaType="entity.DoctorCategory">
+            <id column="doctor_category_id" property="doctorCategoryId"/>
+            <result column="doctor_category_name" property="doctorCategoryName"/>
+        </association>
+        <association property="hospital" column="hospital_id" javaType="entity.Hospital">
+            <id column="hospital_id" property="hospitalId"/>
+            <result column="owner_name" property="ownerName"/>
+            <result column="hospital_name" property="hospitalName"/>
+        </association>
+        <collection property="doctorImgList" column="doctor_id" ofType="entity.DoctorImg">
+            <id column="doctor_img_id" property="doctorImgId"/>
+            <result column="detail_img" property="imgAddr"/>
+            <result column="img_desc" property="imgDesc" />
+            <result column="priority" property="priority"/>
+            <result column="create_time" property="createTime"/>
+            <result column="doctor_id" property="doctorId" />
+        </collection>
+    </resultMap>
+    <insert id="insertDoctor" parameterType="entity.Doctor" useGeneratedKeys="true" keyProperty="doctorId" keyColumn="doctor_id">
+        INSERT INTO
+        tb_doctor(doctor_name,doctor_desc,img_addr,priority,create_time,last_edit_time,enable_status,doctor_category_id,hospital_id)
+        VALUES
+        (#{doctorName},#{doctorDesc},#{imgAddr},#{priority},#{createTime},#{lastEditTime},#{enableStatus},#{doctorCategory.doctorCategoryId},#{hospital.hospitalId})
+    </insert>
+    <select id="queryDoctorById" resultMap="doctorMap" parameterType="Long">
+        SELECT
+        d.doctor_id,
+        d.doctor_name,
+        d.doctor_desc,
+        d.img_addr,
+        d.priority,
+        d.create_time,
+        d.last_edit_time,
+        d.enable_status,
+        d.doctor_category_id,
+        d.hospital_id,
+        dm.doctor_img_id,
+        dm.img_addr AS detail_img,
+        dm.img_desc AS dm_priority,
+        dm.create_time
+        FROM
+        tb_doctor d
+        LEFT JOIN
+        tb_doctor_img dm
+        ON
+        d.doctor_id = dm.doctor_id
+        WHERE
+        d.doctor_id=#{doctorId}
+        ORDER BY
+        dm.priority DESC
+    </select>
+    <update id="updateDoctor" parameterType="entity.Doctor" keyColumn="doctor_id" useGeneratedKeys="true">
+        UPDATE tb_doctor
+        <set>
+            <if test="doctorName !=null">doctor_name=#{doctorName},</if>
+            <if test="doctorDesc !=null">doctor_desc=#{doctorDesc},</if>
+            <if test="imgAddr !=null">img_addr=#{imgAddr},</if>
+            <if test="priority !=null">priority=#{priority},</if>
+            <if test="lastEditTime != null">last_edit_time=#{lastEditTime},</if>
+            <if test="enableStatus != null">enable_status=#{enableStatus},</if>
+            <!--TODO			<if test="point != null">point=#{point},</if>-->
+            <if test="doctorCategory !=null and doctorCategory.doctorCategoryId !=null">
+                doctor_category_id=#{doctorCategory.doctorCategoryId}
+            </if>
+        </set>
+        WHERE doctor_id=#{doctorId}
+        AND hospital_id=#{hospital.hospitalId}
+    </update>
+    <update id="updateDoctorCategoryToNull" parameterType="Long">
+        UPDATE
+        tb_doctor
+        SET
+        doctor_category_id=5
+        WHERE doctor_category_id=#{doctorCategoryId}
+    </update>
+    <delete id="deleteDoctor">
+        DELETE FROM
+        tb_doctor
+        WHERE
+        doctor_id = #{doctorId}
+        AND hospital_id=#{hospitalId}
+    </delete>
+    <select id="queryDoctorList" resultType="entity.Doctor">
+        SELECT
+        doctor_id,
+        doctor_name,
+        doctor_desc,
+        img_addr,
+        priority,
+        create_time,
+        last_edit_time,
+        enable_status,
+        doctor_category_id,
+        hospital_id
+        FROM
+        tb_doctor
+        <where>
+            <if test="doctorCondition.hospital!=null and doctorCondition.hospital.hospitalId!=null">
+                and hospital_id=#{doctorCondition.hospital.hospitalId}
+            </if>
+            <if test="doctorCondition.doctorCategory!=null and doctorCondition.doctorCategory.doctorCategoryId!=null">
+                and doctor_category_id=#{doctorCondition.doctorCategory.doctorCategoryId}
+            </if>
+            <if test="doctorCondition.doctorName!=null">
+                and doctor_name like '%${doctorCondition.doctorName}'
+            </if>
+            <if test="doctorCondition.enableStatus!=null">
+                and enable_status = #{doctorCondition.enableStatus}
+            </if>
+        </where>
+        ORDER BY
+        priority DESC
+        LIMIT #{rowIndex},#{pageSize};
+    </select>
+
+    <select id="queryDoctorCount" resultType="int">
+        SELECT count(1) FROM tb_doctor
+        <where>
+            <if test="doctorCondition.hospital!=null and doctorCondition.hospital.hospitalId!=null">
+                and hospital_id=#{doctorCondition.hospital.hospitalId}
+            </if>
+            <if test="doctorCondition.doctorCategory!=null and doctorCondition.doctorCategory.doctorCategoryId!=null">
+                and doctor_category_id=#{doctorCondition.doctorCategory.doctorCategoryId}
+            </if>
+            <if test="doctorCondition.doctorName!=null">
+                and doctor_name like '%${doctorCondition.doctorName}'
+            </if>
+            <if test="doctorCondition.enableStatus!=null">
+                and enable_status = #{doctorCondition.enableStatus}
+            </if>
+        </where>
+    </select>
+</mapper>

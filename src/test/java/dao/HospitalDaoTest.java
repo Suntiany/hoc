@@ -64,4 +64,12 @@ public class HospitalDaoTest extends BaseTest {
         System.out.println("医院列表的大小：" +hospitalList.size());
         System.out.println("医院总数:"+ count);
     }
+
+    @Test
+    public void testQueryAllHospitalList() {
+        Hospital hospitalCondition = new Hospital();
+        hospitalCondition.setEnableStatus(0);
+        List<Hospital> hospitalList = hospitalDao.queryHospitalList(hospitalCondition,0,10);
+        System.out.println("医院列表的大小：" +hospitalList.size());
+    }
 }
