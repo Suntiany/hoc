@@ -14,6 +14,7 @@ $(function() {
 		$.getJSON(listUrl, function(data) {
 			if (data.success) {
 				var doctorList = data.doctorList;
+				console.log(doctorList);
 				var tempHtml = '';
 				//console.log(data.doctorList);
 				// 遍历每条商品信息，拼接成一行显示，列信息包括：

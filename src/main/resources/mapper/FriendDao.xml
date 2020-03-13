@@ -10,6 +10,8 @@
         <association property="user" column="user_id" javaType="entity.User">
             <id column="user_id" property="userId"/>
             <result column="user_name" property="userName"/>
+            <result column="addr" property="addr"/>
+            <result column="email" property="email"/>
         </association>
         <association property="hospital" column="hospital_id" javaType="entity.Hospital">
             <id column="hospital_id" property="hospitalId"/>
@@ -38,6 +40,7 @@
         f.*,
         u.user_name,
         u.addr,
+        u.email,
         h.hospital_name
         FROM tb_friend f
         LEFT JOIN tb_user u on u.user_id = f.user_id
@@ -49,6 +52,7 @@
         f.*,
         u.user_name,
         u.addr,
+        u.email,
         h.hospital_name
         FROM tb_friend f
         LEFT JOIN tb_user u on u.user_id = f.user_id

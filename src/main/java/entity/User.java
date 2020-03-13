@@ -9,10 +9,28 @@ public class User {
     private String email;
     private Area area;
     private String gender;
+    private String addr;
     private Integer enableStatus;
     private Date createTime;
     private Date lastEditTime;
-    private String friend_hospital;
+    private String friendHospital;
+    private String phone;
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddr() {
+        return addr;
+    }
+
+    public void setAddr(String addr) {
+        this.addr = addr;
+    }
 
     public Long getUserId() {
         return userId;
@@ -86,11 +104,11 @@ public class User {
         this.lastEditTime = lastEditTime;
     }
 
-    public String getFriend_hospital() {
-        return friend_hospital;
+    public String getFriendHospital() {
+        return friendHospital;
     }
 
-    public void setFriend_hospital(String friend_hospital) {
-        this.friend_hospital = friend_hospital;
+    public void setFriendHospital(String friend_hospital) {
+        this.friendHospital = friendHospital;
     }
 }

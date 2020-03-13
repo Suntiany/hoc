@@ -31,4 +31,6 @@ public class HospitalAdminController {
     public String doctorManagement() {
         return "hospital/doctormanagement";
     }
+    @RequestMapping(value="/usermanagement")
+    public String userManagement(){return "hospital/usermanagement";}
 }

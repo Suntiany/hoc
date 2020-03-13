@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.UserDao">
+    <resultMap id="userMap" type="entity.User">
+        <id column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="email" property="email"/>
+        <result column="addr" property="addr"/>
+        <result column="gender" property="gender" />
+        <result column="phone" property="phone"/>
+        <result column="create_time" property="createTime" />
+        <result column="last_edit_time" property="lastEditTime" />
+        <result column="enable_status" property="enableStatus" />
+        <association property="area" column="area_id" javaType="entity.Area">
+            <id column="area_id" property="areaId"/>
+            <result column="area_name" property="areaName"/>
+        </association>
+    </resultMap>
+    <insert id="insert" useGeneratedKeys="true" keyColumn="user_id" keyProperty="userId">
+        INSERT INTO tb_user(user_name,email,area_id,addr,gender,enable_status,create_time,last_edit_time,friend_hospital,phone)
+        VALUES (#{userName},#{email},#{area.areaId},#{addr},#{gender},#{enableStatus},#{createTime},#{lastEditTime},#{friendHospital},#{phone})
+    </insert>
+    <update id="update" parameterType="entity.User">
+        update tb_user
+        <set>
+            <if test="userName !=null">user_name=#{userName},</if>
+            <if test="email !=null">email=#{email},</if>
+            <if test="addr !=null">addr=#{addr},</if>
+            <if test="phone !=null">phone=#{phone},</if>
+            <if test="gender !=null">gender=#{gender},</if>
+            <if test="friendHospital !=null">frien_hospital=#{friendHospital},</if>
+            <if test="createTime!=null">create_time=#{createTime},</if>
+            <if test="lastEditTime!=null">last_edit_time=#{lastEditTime},</if>
+            <if test="enableStatus!=null">enable_status=#{enableStatus},</if>
+        </set>
+        where user_id=#{userId}
+    </update>
+    <delete id="delete" parameterType="Long">
+        DELETE FROM tb_user
+        WHERE user_id = #{userId}
+    </delete>
+    <select id="selectByUserId" resultMap="userMap" parameterType="Long">
+        SELECT
+        u.user_id,
+        u.user_name,
+        u.email,
+        u.addr,
+        u.phone,
+        u.gender,
+        u.friend_hospital,
+        u.create_time,
+        u.last_edit_time,
+        u.enable_status,
+        a.area_id,
+        a.area_name
+        FROM
+        tb_user u,
+        tb_area a
+        WHERE
+        u.area_id = a.area_id
+        AND
+        u.user_id = #{userId}
+    </select>
+    <select id="selectAll" resultMap="userMap">
+        SELECT
+        u.user_id,
+        u.user_name,
+        u.email,
+        u.addr,
+        u.phone,
+        u.gender,
+        u.friend_hospital,
+        u.create_time,
+        u.last_edit_time,
+        u.enable_status,
+        a.area_id,
+        a.area_name
+        FROM
+        tb_user u,
+        tb_area a
+        WHERE
+        u.area_id = a.area_id
+    </select>
+    <select id="selectByAreaId" resultMap="userMap" parameterType="Integer">
+                SELECT
+        u.user_id,
+        u.user_name,
+        u.email,
+        u.addr,
+        u.phone,
+        u.gender,
+        u.friend_hospital,
+        u.create_time,
+        u.last_edit_time,
+        u.enable_status,
+        a.area_id,
+        a.area_name
+        FROM
+        tb_user u,
+        tb_area a
+        WHERE
+        u.area_id = #{areaId}
+        AND
+        u.area_id = a.area_id
+    </select>
+    <select id="getUserIdByUserName" resultMap="userMap" parameterType="String">
+        SELECT
+        u.user_id,
+        u.user_name,
+        u.email,
+        u.addr,
+        u.phone,
+        u.gender,
+        u.friend_hospital,
+        u.create_time,
+        u.last_edit_time,
+        u.enable_status,
+        a.area_id,
+        a.area_name
+        FROM
+        tb_user u,
+        tb_area a
+        WHERE
+        u.user_name = #{userName}
+        AND
+        u.area_id = a.area_id
+    </select>
+</mapper>

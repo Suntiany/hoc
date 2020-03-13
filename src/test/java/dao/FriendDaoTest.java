@@ -47,10 +47,10 @@ public class FriendDaoTest extends BaseTest {
 
     @Test
     public void testSelectByHospitalId(){
-        Integer hospitalId  = 27;
+        Integer hospitalId  = 17;
         List<Friend> friendList = friendDao.selectByHospitalId(hospitalId);
         System.out.println(friendList.size());
-        System.out.println(friendList.get(0).getHospital().getHospitalName());
+        System.out.println(friendList.get(0).getUser().getEmail());
     }
 
     @Test
@@ -58,6 +58,6 @@ public class FriendDaoTest extends BaseTest {
         Integer userId = 1;
         List<Friend> friendList = friendDao.selectByUserId(userId);
         System.out.println(friendList.size());
-        System.out.println(friendList.get(0).getHospital().getHospitalName());
+        System.out.println(friendList.get(0).getUser().getAddr());
     }
 }

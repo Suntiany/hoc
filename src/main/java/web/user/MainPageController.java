@@ -4,6 +4,7 @@ import dto.HospitalExecution;
 import entity.Area;
 import entity.HeadLine;
 import entity.Hospital;
+import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import service.AreaService;
 import service.HeadLineService;
 import service.HospitalService;
+import service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,16 +30,20 @@ public class MainPageController {
     private AreaService areaService;
     @Autowired
     private HospitalService hospitalService;
+    @Autowired
+    private UserService userService;
 
     /**
      * 初始化用户系统的签约页面信息，包括获取与用户相同区域的医院列表，所有医院列表，以及头条列表
      */
     @RequestMapping(value="/signpageinfo",method= RequestMethod.GET)
     @ResponseBody
-    private Map<String,Object> signPageInfo() {
+    private Map<String,Object> signPageInfo(HttpServletRequest request) {
         Map<String,Object> modelMap = new HashMap<String, Object>();
+        Long userId = (Long)request.getSession().getAttribute("userId");
+        User user = userService.getByUserId(userId);
         Area area = new Area();
-        area.setAreaId(1);
+        area.setAreaId(user.getArea().getAreaId());
         Hospital hospitalCondition = new Hospital();
         hospitalCondition.setArea(area);
         Hospital allHospital = new Hospital();

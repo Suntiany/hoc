@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("local")
 public class LoginController {
     @RequestMapping(value="/arealogin",method= RequestMethod.GET)
-    private String login() {
+    private String arealogin() {
         return "local/arealogin";
     }
+    @RequestMapping(value="/userlogin",method = RequestMethod.GET)
+    private String userlogin() {return "local/userlogin";}
 }
