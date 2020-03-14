@@ -40,7 +40,7 @@ public class FriendServiceImpl implements FriendService {
         //判断friend形参里面的userId和hospitalId是否为空
         if(friend.getHospitalId()>-1&&friend.getUserId()>-1){
             friend.setUserFollow("已提交");
-            friend.setHospitalFollow("审核通过");
+            friend.setHospitalFollow("已审核");
             try{
                 int effectedNum = friendDao.updateFriend(friend);
                 if(effectedNum<=0){
@@ -74,14 +74,20 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public FriendExecution getByHospitalId(int hospitalId) {
+    public FriendExecution getByHospitalId(long hospitalId) {
         List<Friend> friendList = friendDao.selectByHospitalId(hospitalId);
         return new FriendExecution(FriendStateEnum.SUCCESS,friendList);
     }
 
     @Override
-    public FriendExecution getByUserId(int UserId) {
+    public FriendExecution getByUserId(long UserId) {
         List<Friend> friendList = friendDao.selectByUserId(UserId);
         return new FriendExecution(FriendStateEnum.SUCCESS,friendList);
+    }
+
+    @Override
+    public FriendExecution getByUserIdAndHospitalId(long userId, long hospitalId) {
+        Friend friend =  friendDao.selectByUserIdAndHospitalId(userId,hospitalId);
+        return new FriendExecution(FriendStateEnum.SUCCESS,friend);
     }
 }

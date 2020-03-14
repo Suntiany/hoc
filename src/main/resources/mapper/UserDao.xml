@@ -127,4 +127,5 @@
         AND
         u.area_id = a.area_id
     </select>
+
 </mapper>

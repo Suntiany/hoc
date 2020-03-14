@@ -12,6 +12,7 @@
             <result column="user_name" property="userName"/>
             <result column="addr" property="addr"/>
             <result column="email" property="email"/>
+            <result column="phone" property="phone"/>
         </association>
         <association property="hospital" column="hospital_id" javaType="entity.Hospital">
             <id column="hospital_id" property="hospitalId"/>
@@ -35,12 +36,13 @@
     <delete id="delete" parameterType="entity.Friend">
         delete from tb_friend WHERE user_id=#{userId} AND hospital_id=#{hospitalId}
     </delete>
-    <select id="selectByHospitalId" resultMap="friend" parameterType="Integer">
+    <select id="selectByHospitalId" resultMap="friend" parameterType="Long">
         SELECT
         f.*,
         u.user_name,
         u.addr,
         u.email,
+        u.phone,
         h.hospital_name
         FROM tb_friend f
         LEFT JOIN tb_user u on u.user_id = f.user_id
@@ -58,5 +60,17 @@
         LEFT JOIN tb_user u on u.user_id = f.user_id
         LEFT JOIN tb_hospital h on h.hospital_id = f.hospital_id
         WHERE f.user_id=#{userId}
+    </select>
+    <select id="selectByUserIdAndHospitalId" resultMap="friend">
+       SELECT
+        f.*,
+        u.user_name,
+        u.addr,
+        u.email,
+        h.hospital_name
+        FROM tb_friend f
+        LEFT JOIN tb_user u on u.user_id = f.user_id
+        LEFT JOIN tb_hospital h on h.hospital_id = f.hospital_id
+        WHERE f.user_id=#{userId} AND f.hospital_id=#{hospitalId}
     </select>
 </mapper>

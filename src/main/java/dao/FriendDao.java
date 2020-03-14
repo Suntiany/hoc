@@ -1,6 +1,8 @@
 package dao;
 
 import entity.Friend;
+import entity.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -30,12 +32,14 @@ public interface FriendDao {
      * @param hospitalId
      * @return
      */
-    List<Friend> selectByHospitalId(int hospitalId);
+    List<Friend> selectByHospitalId(long hospitalId);
 
     /**
      * 返回某个用户与医院的签约情况
      * @param userId
      * @return
      */
-    List<Friend> selectByUserId(int userId);
+    List<Friend> selectByUserId(long userId);
+
+    Friend selectByUserIdAndHospitalId(@Param("userId") long userId, @Param("hospitalId") long hospitalId);
 }

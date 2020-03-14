@@ -3,11 +3,19 @@ package entity;
 public class Friend {
     private int friendId;
     private Long userId;
-    private int hospitalId;
     private String userFollow;
     private String hospitalFollow;
     private User user;
     private Hospital hospital;
+    private Long hospitalId;
+
+    public Long getHospitalId() {
+        return hospitalId;
+    }
+
+    public void setHospitalId(Long hospitalId) {
+        this.hospitalId = hospitalId;
+    }
 
     public int getFriendId() {
         return friendId;
@@ -41,13 +49,6 @@ public class Friend {
         this.userId = userId;
     }
 
-    public int getHospitalId() {
-        return hospitalId;
-    }
-
-    public void setHospitalId(int hospitalId) {
-        this.hospitalId = hospitalId;
-    }
 
     public String getUserFollow() {
         return userFollow;

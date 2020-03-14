@@ -31,6 +31,8 @@ $(function(){
                     $.getJSON(signHospitalUrl,function (data) {
                         if(data.success){
                             $.alert("您的签约申请已提交，请耐心等待");
+                        }else{
+                            $.alert("无法重复申请同一家医院，请耐性等待审核");
                         }
                     })
                 }

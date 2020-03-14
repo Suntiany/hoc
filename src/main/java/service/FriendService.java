@@ -9,6 +9,7 @@ public interface FriendService {
     FriendExecution insertFriendShip(Friend friend);
     FriendExecution updateFriendShip(Friend friend);
     FriendExecution deleteFriendShip(Friend friend);
-    FriendExecution getByHospitalId(int hospitalId);
-    FriendExecution getByUserId(int UserId);
+    FriendExecution getByHospitalId(long hospitalId);
+    FriendExecution getByUserId(long UserId);
+    FriendExecution getByUserIdAndHospitalId(long userId,long hospitalId);
 }
