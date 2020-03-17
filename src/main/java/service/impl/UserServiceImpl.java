@@ -113,4 +113,25 @@ public class UserServiceImpl implements UserService {
         }
         return ue;
     }
+
+    @Override
+    public UserExecution addDoctor(User user) {
+        if(user==null||user.getUserId()==null){
+            return new UserExecution(UserStateEnum.NULL_USER);
+        }else{
+            try{
+                System.out.println(user.getDoctor().getDoctorId());
+                user.setLastEditTime(new Date());
+                int effectedNum = userDao.update(user);
+                if(effectedNum<=0){
+                    return new UserExecution(UserStateEnum.INNER_ERROR);
+                }else{
+                    user = userDao.selectByUserId(user.getUserId());
+                    return new UserExecution(UserStateEnum.SUCCESS,user);
+                }
+            }catch (Exception e){
+                throw new UserOperationExecution("addDoctor error" + e.getMessage());
+            }
+        }
+    }
 }

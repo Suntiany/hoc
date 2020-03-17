@@ -104,9 +104,14 @@ public class UserController {
         }
     }
 
+    /**
+     * 用户登录系统时 会在session 值里面设置userId 直接通过session 降低前后端耦合度
+     * @param request
+     * @return
+     */
     @RequestMapping(value="/getuserbysession",method=RequestMethod.GET)
     @ResponseBody
-    private Map<String,Object> getUserById(HttpServletRequest request){
+    private Map<String,Object> getUserBySession(HttpServletRequest request){
         Map<String,Object> modelMap = new HashMap<String, Object>();
         Long userId = (Long)request.getSession().getAttribute("userId");
         if(userId>-1){
@@ -114,6 +119,34 @@ public class UserController {
                 User user = userService.getByUserId(userId);
                 List<Area> areaList = areaService.getAreaList();
                 UserAuth userAuth = userAuthService.getUserAuthByUserId(userId);
+                modelMap.put("user",user);
+                modelMap.put("areaList",areaList);
+                modelMap.put("success",true);
+                modelMap.put("userAuth",userAuth);
+            }catch (Exception e){
+                modelMap.put("success",false);
+                modelMap.put("errMsg","empty userId");
+            }
+        }
+        return modelMap;
+    }
+
+    /**
+     * 医院获取用户信息 这时候没有User session 后期可以考虑和上面的方法合并
+     * @param request
+     * @return
+     */
+    @RequestMapping(value="/getuserbyid",method = RequestMethod.GET)
+    @ResponseBody
+    private Map<String,Object> getUserById(HttpServletRequest request){
+        Map<String,Object> modelMap = new HashMap<String, Object>();
+        Long userId = Long.parseLong(request.getParameter("userId"));
+        if(userId>-1){
+            try{
+                User user = userService.getByUserId(userId);
+                List<Area> areaList = areaService.getAreaList();
+                UserAuth userAuth = userAuthService.getUserAuthByUserId(userId);
+                modelMap.put("doctor",user.getDoctor());
                 modelMap.put("user",user);
                 modelMap.put("areaList",areaList);
                 modelMap.put("success",true);
@@ -173,4 +206,46 @@ public class UserController {
         }
     }
 
+    //为用户指定家庭医生Id
+    @RequestMapping(value="/adddoctor",method=RequestMethod.POST)
+    @ResponseBody
+    private Map<String,Object> addDoctor(HttpServletRequest request) {
+        //1接收并转化相应的参数，包括医院信息以及图片信息
+        Map<String,Object> modelMap = new HashMap<String, Object>();
+        if(!CodeUtil.checkVerifyCode(request)){
+            modelMap.put("success",false);
+            modelMap.put("errMsg","输入了错误的验证码");
+            return modelMap;
+        }
+        String userStr = HttpServletRequestUtil.getString(request,"userStr");
+        ObjectMapper mapper = new ObjectMapper();
+        User user = null;
+        try{
+            user = mapper.readValue(userStr,User.class);
+        }catch (Exception e){
+            modelMap.put("success",false);
+            modelMap.put("errMsg",e.getMessage());
+            return modelMap;
+        }
+        if(user!=null) {
+            UserExecution ue;
+            try{
+                ue = userService.addDoctor(user);
+                if(ue.getState()==UserStateEnum.SUCCESS.getState()){
+                    modelMap.put("success",true);
+                }else{
+                    modelMap.put("success",false);
+                    modelMap.put("errMsg",ue.getStateInfo());
+                }
+            }catch (UserOperationExecution e){
+                modelMap.put("success", false);
+                modelMap.put("errMsg", e.getMessage());
+            }
+            return modelMap;
+        }else{
+            modelMap.put("success", false);
+            modelMap.put("errMsg", "请输入用户Id");
+            return modelMap;
+        }
+    }
 }

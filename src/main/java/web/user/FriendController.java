@@ -1,5 +1,6 @@
 package web.user;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import dto.FriendExecution;
 import dto.UserExecution;
 import entity.Friend;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import service.FriendService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,9 +35,16 @@ public class FriendController {
         Long userId = (Long)request.getSession().getAttribute("userId");
         friend.setUserId(userId);
         Long hospitalId = Long.parseLong(request.getParameter("hospitalId"));
+        Date createTime = new Date();
+        friend.setCreateTime(createTime);
         friend.setHospitalId(hospitalId);
         FriendExecution fe1 = friendService.getByUserIdAndHospitalId(userId,hospitalId);
         if(fe1.getFriend()!=null){
+                modelMap.put("success",false);
+                return modelMap;
+        }
+        FriendExecution fe2 = friendService.getByUserId(userId);
+        if(fe2.getFriendList().size()>0){
                 modelMap.put("success",false);
                 return modelMap;
         }
@@ -57,8 +66,10 @@ public class FriendController {
     @ResponseBody
     private Map<String,Object> verifyUser(HttpServletRequest request){
         Map<String,Object> modelMap = new HashMap<String, Object>();
+        Hospital currentHospital = (Hospital)request.getSession().getAttribute("currentHospital");
+        Long hospitalId = currentHospital.getHospitalId();
         Friend friend = new Friend();
-        friend.setHospitalId(17L);
+        friend.setHospitalId(hospitalId);
         Long userId = Long.parseLong(request.getParameter("userId"));
         friend.setUserId(userId);
         if(friend.getUserId()>-1&&friend.getHospitalId()>-1){
@@ -133,11 +144,17 @@ public class FriendController {
     @ResponseBody
     private Map<String,Object> getFriendShipByUserId(HttpServletRequest request){
         Map<String,Object> modelMap = new HashMap<String, Object>();
-        int userId = Integer.parseInt(request.getParameter("userId"));
+        //int userId = Integer.parseInt(request.getParameter("userId"));
+        Long userId = (Long) request.getSession().getAttribute("userId");
         if(userId>-1){
             FriendExecution fe= friendService.getByUserId(userId);
-            modelMap.put("success",true);
-            modelMap.put("friendList",fe.getFriendList());
+            Date createTime = fe.getFriendList().get(0).getCreateTime();
+            if(fe.getFriendList().size()>0){
+                modelMap.put("success",true);
+                modelMap.put("friendList",fe.getFriendList());
+            }else {
+                modelMap.put("success",false);
+            }
         }else{
             modelMap.put("success",false);
             modelMap.put("errMsg","用户ID不存在");
@@ -156,6 +173,26 @@ public class FriendController {
         long HospitalId = Long.parseLong(String.valueOf(currentHospital.getHospitalId()));
         if(HospitalId>-1){
             FriendExecution fe= friendService.getByHospitalId(HospitalId);
+            modelMap.put("success",true);
+            modelMap.put("friendList",fe.getFriendList());
+        }else{
+            modelMap.put("success",false);
+            modelMap.put("errMsg","医院ID不存在");
+        }
+        return modelMap;
+    }
+
+    /**
+     * 医院通过此url获取自己已经审核通过的用户信息
+     */
+    @RequestMapping(value="/getfriendsigned",method = RequestMethod.GET)
+    @ResponseBody
+    private Map<String,Object> getFriendWhoHasSigned(HttpServletRequest request){
+        Map<String,Object> modelMap = new HashMap<String, Object>();
+        Hospital currentHospital = (Hospital)request.getSession().getAttribute("currentHospital");
+        long HospitalId = Long.parseLong(String.valueOf(currentHospital.getHospitalId()));
+        if(HospitalId>-1){
+            FriendExecution fe = friendService.getFriendByHospitalId(HospitalId);
             modelMap.put("success",true);
             modelMap.put("friendList",fe.getFriendList());
         }else{

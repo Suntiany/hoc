@@ -8,13 +8,21 @@ public class User {
     private String profileImg;
     private String email;
     private Area area;
+    private Doctor doctor;
     private String gender;
     private String addr;
     private Integer enableStatus;
     private Date createTime;
     private Date lastEditTime;
-    private String friendHospital;
     private String phone;
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
 
     public String getPhone() {
         return phone;
@@ -102,13 +110,5 @@ public class User {
 
     public void setLastEditTime(Date lastEditTime) {
         this.lastEditTime = lastEditTime;
-    }
-
-    public String getFriendHospital() {
-        return friendHospital;
-    }
-
-    public void setFriendHospital(String friend_hospital) {
-        this.friendHospital = friendHospital;
     }
 }

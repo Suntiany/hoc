@@ -17,10 +17,14 @@
             <id column="area_id" property="areaId"/>
             <result column="area_name" property="areaName"/>
         </association>
+        <association property="doctor" column="doctor_id" javaType="entity.Doctor">
+            <id column="doctor_id" property="doctorId"/>
+            <result column="doctor_name" property="doctorName"/>
+        </association>
     </resultMap>
     <insert id="insert" useGeneratedKeys="true" keyColumn="user_id" keyProperty="userId">
-        INSERT INTO tb_user(user_name,email,area_id,addr,gender,enable_status,create_time,last_edit_time,friend_hospital,phone)
-        VALUES (#{userName},#{email},#{area.areaId},#{addr},#{gender},#{enableStatus},#{createTime},#{lastEditTime},#{friendHospital},#{phone})
+        INSERT INTO tb_user(user_name,email,area_id,addr,gender,enable_status,create_time,last_edit_time,doctor_id,phone)
+        VALUES (#{userName},#{email},#{area.areaId},#{addr},#{gender},#{enableStatus},#{createTime},#{lastEditTime},#{doctorId},#{phone})
     </insert>
     <update id="update" parameterType="entity.User">
         update tb_user
@@ -30,7 +34,7 @@
             <if test="addr !=null">addr=#{addr},</if>
             <if test="phone !=null">phone=#{phone},</if>
             <if test="gender !=null">gender=#{gender},</if>
-            <if test="friendHospital !=null">frien_hospital=#{friendHospital},</if>
+            <if test="doctor !=null">doctor_id=#{doctor.doctorId},</if>
             <if test="createTime!=null">create_time=#{createTime},</if>
             <if test="lastEditTime!=null">last_edit_time=#{lastEditTime},</if>
             <if test="enableStatus!=null">enable_status=#{enableStatus},</if>
@@ -49,19 +53,43 @@
         u.addr,
         u.phone,
         u.gender,
-        u.friend_hospital,
         u.create_time,
         u.last_edit_time,
         u.enable_status,
         a.area_id,
-        a.area_name
+        a.area_name,
+        d.doctor_id,
+        d.doctor_name
         FROM
-        tb_user u,
-        tb_area a
+        tb_user u
+        LEFT JOIN tb_area a on a.area_id = u.area_id
+        LEFT JOIN tb_doctor d on d.doctor_id = u.doctor_id
         WHERE
-        u.area_id = a.area_id
-        AND
         u.user_id = #{userId}
+    </select>
+    <select id="selectByDoctorId" resultMap="userMap" parameterType="Long">
+        SELECT
+        u.user_id,
+        u.user_name,
+        u.email,
+        u.addr,
+        u.phone,
+        u.gender,
+        u.create_time,
+        u.last_edit_time,
+        u.enable_status,
+        a.area_id,
+        a.area_name,
+        d.doctor_id,
+        d.doctor_name
+        FROM
+        tb_user u,tb_area a,tb_doctor d
+        WHERE
+        u.doctor_id = #{doctorId}
+        AND
+        u.doctor_id = d.doctor_id
+        AND
+        u.area_id = a.area_id
     </select>
     <select id="selectAll" resultMap="userMap">
         SELECT
@@ -71,35 +99,40 @@
         u.addr,
         u.phone,
         u.gender,
-        u.friend_hospital,
         u.create_time,
         u.last_edit_time,
         u.enable_status,
+        d.doctor_id,
+        d.doctor_name,
         a.area_id,
         a.area_name
         FROM
         tb_user u,
         tb_area a
+        LEFT JOIN tb_doctor d on u.doctor_id = d.doctor_id
         WHERE
         u.area_id = a.area_id
     </select>
     <select id="selectByAreaId" resultMap="userMap" parameterType="Integer">
-                SELECT
+        SELECT
         u.user_id,
         u.user_name,
         u.email,
         u.addr,
         u.phone,
         u.gender,
-        u.friend_hospital,
+        u.doctor_id,
         u.create_time,
         u.last_edit_time,
         u.enable_status,
+        d.doctor_id,
+        d.doctor_name,
         a.area_id,
         a.area_name
         FROM
         tb_user u,
-        tb_area a
+        tb_area a,
+        tb_doctor d
         WHERE
         u.area_id = #{areaId}
         AND
@@ -113,7 +146,7 @@
         u.addr,
         u.phone,
         u.gender,
-        u.friend_hospital,
+        u.doctor_id,
         u.create_time,
         u.last_edit_time,
         u.enable_status,

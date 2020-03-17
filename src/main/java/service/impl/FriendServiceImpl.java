@@ -90,4 +90,18 @@ public class FriendServiceImpl implements FriendService {
         Friend friend =  friendDao.selectByUserIdAndHospitalId(userId,hospitalId);
         return new FriendExecution(FriendStateEnum.SUCCESS,friend);
     }
+
+    @Override
+    public FriendExecution getFriendByHospitalId(long hospitalId) {
+        try{
+            List<Friend> friendList = friendDao.selectFriendByHospitalId(hospitalId);
+            if(friendList.size()>0){
+                return new FriendExecution(FriendStateEnum.SUCCESS,friendList);
+            }
+        }catch (Exception e){
+            return new FriendExecution(FriendStateEnum.INNER_ERROR);
+        }
+
+        return null;
+    }
 }

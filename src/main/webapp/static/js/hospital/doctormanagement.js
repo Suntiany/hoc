@@ -5,12 +5,12 @@ $(function() {
 	var statusUrl = '/hoc/hospitaladmin/modifydoctor';
 	getList();
 	/**
-	 * 获取此店铺下的商品列表
+	 * 获取此医院下的医生列表
 	 * 
 	 * @returns
 	 */
 	function getList() {
-		// 从后台获取此店铺的商品列表
+		// 从后台获取此医院的医生列表
 		$.getJSON(listUrl, function(data) {
 			if (data.success) {
 				var doctorList = data.doctorList;
@@ -21,11 +21,11 @@ $(function() {
 				// 商品名称，优先级，上架\下架(含doctorId)，编辑按钮(含doctorId)
 				// 预览(含doctorId)
 				doctorList.map(function(item, index) {
-					var textOp = "下架";
+					var textOp = "在值";
 					var contraryStatus = 0;
 					if (item.enableStatus == 0) {
 						// 若状态值为0，表明是已下架的商品，操作变为上架(即点击上架按钮上架相关商品)
-						textOp = "上架";
+						textOp = "下班";
 						contraryStatus = 1;
 					} else {
 						contraryStatus = 0;

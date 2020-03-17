@@ -35,11 +35,19 @@ public interface FriendDao {
     List<Friend> selectByHospitalId(long hospitalId);
 
     /**
+     * 返回所有医院管理员审核成功的用户来给用户指派家庭医生
+     */
+    List<Friend> selectFriendByHospitalId(long hospitalId);
+
+
+    /**
      * 返回某个用户与医院的签约情况
      * @param userId
      * @return
      */
     List<Friend> selectByUserId(long userId);
+
+
 
     Friend selectByUserIdAndHospitalId(@Param("userId") long userId, @Param("hospitalId") long hospitalId);
 }

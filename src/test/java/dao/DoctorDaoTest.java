@@ -36,8 +36,10 @@ public class DoctorDaoTest extends BaseTest {
 
     @Test
     public void testGetDoctorById() {
-        Doctor doctor = doctorDao.queryDoctorById(4L);
+        Doctor doctor = doctorDao.queryDoctorById(3L);
         System.out.println(doctor.getDoctorName());
+        System.out.println(doctor.getDoctorImgList().get(0).getImgAddr());
+        System.out.println(doctor.getDoctorCategory().getDoctorCategoryName());
     }
 
     @Test

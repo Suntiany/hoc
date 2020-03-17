@@ -15,4 +15,8 @@ public class UserAdminController {
     public String UserSession(){
         return "user/useredit";
     }
+    @RequestMapping(value="/signdetail",method = RequestMethod.GET)
+    public String getHospitalDetail(){return "user/signdetail";}
+    @RequestMapping(value="/doctordetail",method = RequestMethod.GET)
+    public String getDoctorDetail(){return "user/doctordetail";}
 }

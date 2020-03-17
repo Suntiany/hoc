@@ -1,5 +1,6 @@
 package dao;
 
+import entity.Doctor;
 import entity.User;
 
 import java.util.List;
@@ -12,4 +13,5 @@ public interface UserDao {
     User selectByUserId(long userId);
     List<User> selectAll();
     List<User> selectByAreaId(int areaId);
+    List<User> selectByDoctorId(long doctorId);
 }

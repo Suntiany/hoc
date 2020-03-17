@@ -39,4 +39,11 @@ public interface UserService {
      * @return
      */
     UserExecution getAllUserList();
+
+    /**
+     * 为用户指派一位家庭医生（插入一位家庭医生的id）
+     * @param user
+     * @return
+     */
+    UserExecution addDoctor(User user);
 }

@@ -33,4 +33,12 @@ public class HospitalAdminController {
     }
     @RequestMapping(value="/usermanagement")
     public String userManagement(){return "hospital/usermanagement";}
+    @RequestMapping(value="/doctorassign")
+    public String doctorAssign(){
+        return "hospital/doctorassign";
+    }
+    @RequestMapping(value="/getuser")
+    public String getUser(){
+        return "hospital/userinfo";
+    }
 }

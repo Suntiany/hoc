@@ -29,8 +29,8 @@ public class FriendDaoTest extends BaseTest {
     @Test
     public void testUpdateFriend(){
         Friend friend = new Friend();
-        friend.setHospitalId(25L);
-        friend.setUserId(1L);
+        friend.setHospitalId(17L);
+        friend.setUserId(2L);
         friend.setUserFollow("已提交");
         friend.setHospitalFollow("审核成功");
         int effectedNum = friendDao.updateFriend(friend);
@@ -56,9 +56,10 @@ public class FriendDaoTest extends BaseTest {
 
     @Test
     public void testSelectByUserId(){
-        List<Friend> friendList = friendDao.selectByUserId(3L);
+        List<Friend> friendList = friendDao.selectByUserId(23L);
         System.out.println(friendList.size());
         System.out.println(friendList.get(0).getUser().getAddr());
+        System.out.println(friendList.get(0).getCreateTime());
     }
 
     @Test
@@ -68,5 +69,13 @@ public class FriendDaoTest extends BaseTest {
         Friend friend = friendDao.selectByUserIdAndHospitalId(3L,17L);
         System.out.println(friend.getUser().getUserId());
         System.out.println(friend.getHospital().getHospitalId());
+    }
+    @Test
+    public void testSelectFriendByHospitalId(){
+        Long hospitalId = 17L;
+        List<Friend> friendList = friendDao.selectFriendByHospitalId(hospitalId);
+        System.out.println(friendList.size());
+        System.out.println(friendList.get(0).getUser().getUserName());
+        System.out.println(friendList.get(0).getUser().getPhone());
     }
 }
