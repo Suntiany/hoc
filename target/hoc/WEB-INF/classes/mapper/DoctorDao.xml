@@ -12,7 +12,6 @@
         <result column="create_time" property="createTime"/>
         <result column="last_edit_time" property="lastEditTime" />
         <result column="enable_status" property="enableStatus" />
-        <!--TODO   <result column = "point" property="point"/>-->
         <association property="doctorCategory" column="doctor_category_id" javaType="entity.DoctorCategory">
             <id column="doctor_category_id" property="doctorCategoryId"/>
             <result column="doctor_category_name" property="doctorCategoryName"/>
@@ -49,6 +48,7 @@
         d.enable_status,
         d.doctor_category_id,
         d.hospital_id,
+        dc.doctor_category_name,
         dm.doctor_img_id,
         dm.img_addr AS detail_img,
         dm.img_desc AS dm_priority,
@@ -59,6 +59,10 @@
         tb_doctor_img dm
         ON
         d.doctor_id = dm.doctor_id
+        LEFT JOIN
+        tb_doctor_category dc
+        ON
+        d.doctor_category_id=dc.doctor_category_id
         WHERE
         d.doctor_id=#{doctorId}
         ORDER BY

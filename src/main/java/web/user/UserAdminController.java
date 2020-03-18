@@ -19,4 +19,8 @@ public class UserAdminController {
     public String getHospitalDetail(){return "user/signdetail";}
     @RequestMapping(value="/doctordetail",method = RequestMethod.GET)
     public String getDoctorDetail(){return "user/doctordetail";}
+    @RequestMapping(value="/healthmonitor",method = RequestMethod.GET)
+    public String HealthMonitor(){
+        return "user/healthmonitor";
+    }
 }
