@@ -9,10 +9,10 @@ public class HealthMonitor {
     private User user;
     private Date createTime;
     private Date lastEditTime;
-    private int bloodGlucose;
-    private int bloodPressureLow;
-    private int bloodPressureHigh;
-    private int heartRate;
+    private float bloodGlucose;
+    private float bloodPressureLow;
+    private float bloodPressureHigh;
+    private float heartRate;
 
     public int getMonitorId() {
         return monitorId;
@@ -48,35 +48,35 @@ public class HealthMonitor {
         this.lastEditTime = lastEditTime;
     }
 
-    public int getBloodGlucose() {
+    public float getBloodGlucose() {
         return bloodGlucose;
     }
 
-    public void setBloodGlucose(int bloodGlucose) {
+    public void setBloodGlucose(float bloodGlucose) {
         this.bloodGlucose = bloodGlucose;
     }
 
-    public int getBloodPressureLow() {
+    public float getBloodPressureLow() {
         return bloodPressureLow;
     }
 
-    public void setBloodPressureLow(int bloodPressureLow) {
+    public void setBloodPressureLow(float bloodPressureLow) {
         this.bloodPressureLow = bloodPressureLow;
     }
 
-    public int getBloodPressureHigh() {
+    public float getBloodPressureHigh() {
         return bloodPressureHigh;
     }
 
-    public void setBloodPressureHigh(int bloodPressureHigh) {
+    public void setBloodPressureHigh(float bloodPressureHigh) {
         this.bloodPressureHigh = bloodPressureHigh;
     }
 
-    public int getHeartRate() {
+    public float getHeartRate() {
         return heartRate;
     }
 
-    public void setHeartRate(int heartRate) {
+    public void setHeartRate(float heartRate) {
         this.heartRate = heartRate;
     }
 }

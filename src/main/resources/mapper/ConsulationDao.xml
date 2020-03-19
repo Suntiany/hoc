@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.ConsultationDao">
+    <resultMap id="ConsultMap" type="entity.Consultation">
+        <id column="consult_id" property="consultId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_edit_time" property="lastEditTime"/>
+        <result column="symptom" property="symptom"/>
+        <result column="comment" property="comment"/>
+        <result column="status" property="status"/>
+        <association property="user" column="user_id" javaType="entity.User">
+            <id column="user_id" property="userId"/>
+            <result column="user_name" property="userName"/>
+            <result column="addr" property="addr"/>
+            <result column="email" property="email"/>
+            <result column="phone" property="phone"/>
+        </association>
+        <association property="doctor" column="doctor_id" javaType="entity.Doctor">
+            <id column="doctor_id" property="doctorId"/>
+            <result column="doctor_name" property="doctorName"/>
+        </association>
+    </resultMap>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="consultId" keyColumn="consult_id" parameterType="entity.Consultation">
+        INSERT INTO tb_consaulation(user_id,doctor_id,create_time,last_edit_time,symptom,comment,status)
+        VALUES (#{userId},#{doctorId},#{createTime},#{lastEditTime},#{symptom},#{comment},#{status})
+    </insert>
+    <update id="update" parameterType="entity.Consultation" keyColumn="consult_id" useGeneratedKeys="true">
+        update tb_consaulation
+        <set>
+            <if test="lastEditTime!=null">last_edit_time=#{lastEditTime},</if>
+            <if test="symptom!=null">symptom=#{symptom},</if>
+            <if test="comment !=null">comment=#{comment},</if>
+            <if test="status !=null">status=#{status}</if>
+        </set>
+        WHERE doctor_id=#{doctorId} AND user_id = #{userId}
+    </update>
+    <select id="selectByUserId" resultMap="ConsultMap" parameterType="Long">
+        SELECT
+        c.user_id,
+        c.doctor_id,
+        c.create_time,
+        c.last_edit_time,
+        c.symptom,
+        c.comment,
+        c.status,
+        d.doctor_id,
+        d.doctor_name
+        from tb_consaulation c,
+        tb_doctor d
+        WHERE
+        d.doctor_id = c.doctor_id
+        AND
+        c.user_id=#{userId}
+    </select>
+    <select id="selectByDoctorId" resultMap="ConsultMap" parameterType="Long">
+        SELECT
+        c.user_id,
+        c.doctor_id,
+        c.create_time,
+        c.last_edit_time,
+        c.symptom,
+        c.comment,
+        c.status,
+        u.user_id,
+        u.user_name,
+        u.phone,
+        u.email
+        from tb_consaulation c,
+        tb_user u
+        WHERE
+        c.user_id = u.user_id
+        AND
+        c.doctor_id = #{doctorId}
+    </select>
+</mapper>

@@ -67,10 +67,10 @@ public class healthMonitorController {
         List<HealthMonitor> healthMonitorList = healthMonitorService.getHealthMonitorByUserId(userId);
         List<EchartSeries> series = new ArrayList<EchartSeries>();
         List<Date> dateList = new ArrayList<Date>();
-        List<Integer> bloodPressureHighList = new ArrayList<Integer>();
-        List<Integer> bloodPressureLowList = new ArrayList<Integer>();
-        List<Integer> bloodGlucoseList = new ArrayList<Integer>();
-        List<Integer> heartRateList = new ArrayList<Integer>();
+        List<Float> bloodPressureHighList = new ArrayList<Float>();
+        List<Float> bloodPressureLowList = new ArrayList<Float>();
+        List<Float> bloodGlucoseList = new ArrayList<Float>();
+        List<Float> heartRateList = new ArrayList<Float>();
         EchartSeries es1 = new EchartSeries();
         EchartSeries es2 = new EchartSeries();
         EchartSeries es3 = new EchartSeries();

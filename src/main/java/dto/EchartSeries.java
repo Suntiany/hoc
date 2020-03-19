@@ -10,7 +10,7 @@ import java.util.Map;
 public class EchartSeries {
     private String name;
     private String type;
-    private List<Integer> data;
+    private List<Float> data;
 
     public String getName() {
         return name;
@@ -28,11 +28,11 @@ public class EchartSeries {
         this.type = type;
     }
 
-    public List<Integer> getData() {
+    public List<Float> getData() {
         return data;
     }
 
-    public void setData(List<Integer> data) {
+    public void setData(List<Float> data) {
         this.data = data;
     }
 }
