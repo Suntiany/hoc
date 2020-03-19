@@ -1,5 +1,7 @@
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Consultation {
@@ -36,8 +38,10 @@ public class Consultation {
 
     public void setConsultId(int consultId) {
         this.consultId = consultId;
+
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
     }
@@ -46,6 +50,7 @@ public class Consultation {
         this.createTime = createTime;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getLastEditTime() {
         return lastEditTime;
     }

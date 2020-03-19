@@ -38,6 +38,7 @@
     </update>
     <select id="selectByUserId" resultMap="ConsultMap" parameterType="Long">
         SELECT
+        c.consult_id,
         c.user_id,
         c.doctor_id,
         c.create_time,
@@ -56,6 +57,7 @@
     </select>
     <select id="selectByDoctorId" resultMap="ConsultMap" parameterType="Long">
         SELECT
+        c.consult_id,
         c.user_id,
         c.doctor_id,
         c.create_time,

@@ -41,7 +41,7 @@ public class ConsulatDaoTest extends BaseTest {
     }
     @Test
     public void testSelectbyUserId(){
-        List<Consultation> consultationList = consultationDao.selectByUserId(2L);
+        List<Consultation> consultationList = consultationDao.selectByUserId(3L);
         System.out.println(consultationList.size());
         System.out.println(consultationList.get(0).getDoctor().getDoctorName());
     }

@@ -23,4 +23,16 @@ public class UserAdminController {
     public String HealthMonitor(){
         return "user/healthmonitor";
     }
+    @RequestMapping(value="/consulationmanagement",method = RequestMethod.GET)
+    public String consulation(){
+        return "user/consulationmanagement";
+    }
+    @RequestMapping(value="/addconsult",method = RequestMethod.GET)
+    public String consult(){
+        return "user/addconsult";
+    }
+    @RequestMapping(value = "/consultrecord",method = RequestMethod.GET)
+    public String consultrecord(){
+        return "user/consultrecord";
+    }
 }
