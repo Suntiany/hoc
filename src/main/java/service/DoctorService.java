@@ -46,4 +46,5 @@ public interface DoctorService {
      * @return
      */
     DoctorExecution getDoctorList(Doctor doctorCondition,int pageIndex,int pageSize);
+
 }

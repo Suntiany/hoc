@@ -134,4 +134,18 @@ public class UserServiceImpl implements UserService {
             }
         }
     }
+
+    @Override
+    public UserExecution getByDoctorId(Long doctorId) {
+        List<User> userList = userDao.selectByDoctorId(doctorId);
+        try {
+            if (userList.size() > 0) {
+                return new UserExecution(UserStateEnum.SUCCESS, userList);
+            } else {
+                return new UserExecution(UserStateEnum.NULL_USER);
+            }
+        }catch (Exception e){
+            throw new UserOperationExecution("query doctor error" + e.getMessage());
+        }
+    }
 }

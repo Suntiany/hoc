@@ -46,4 +46,12 @@ public interface UserService {
      * @return
      */
     UserExecution addDoctor(User user);
+
+
+    /**
+     * 通过User表里每一个用户的DoctorId值来对用户属于哪一个医生负责进行分类，用于医生系统里的医生获取自己的用户列表
+     * @param doctorId
+     * @return
+     */
+    UserExecution getByDoctorId(Long doctorId);
 }
