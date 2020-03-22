@@ -40,11 +40,35 @@
                 <span class="icon icon-left"></span>
                 返回
             </a>
-            <h1 class="title">医院信息</h1>
+            <h1 class="title">处理留言</h1>
         </header>
         <div class="content">
             <div class="list-block">
                 <ul>
+                    <!--问诊单的提交时间-->
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">创建时间</div>
+                                <div class="item-input">
+                                    <input type="text" id="create-time" placeholder="创建时间" disabled="disabled">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!--问诊单的状态-->
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-name"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">状态</div>
+                                <div class="item-input">
+                                    <input type="text" id="status" placeholder="问诊单状态" disabled="disabled">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
                     <!--症状介绍 text area-->
                     <li class="align-top">
                         <div class="item-content">
@@ -52,11 +76,24 @@
                             <div class="item-inner">
                                 <div class="item-title label">咨询内容</div>
                                 <div class="item-input">
-                                    <textarea id="consult-info" placeholder="请填写咨询内容"></textarea>
+                                    <textarea id="consult-info" placeholder="请填写咨询内容" disabled="disabled"></textarea>
                                 </div>
                             </div>
                         </div>
                     </li>
+                    <!--医生建议 text area-->
+                    <li class="align-top">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-comment"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">建议内容</div>
+                                <div class="item-input">
+                                    <textarea id="comment" placeholder="请填写建议"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
                     <!--验证码 kaptcha-->
                     <div class="item-content">
                         <div class="item-media"><i class="icon icon-form-name"></i></div>
@@ -85,7 +122,7 @@
 <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
 <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
 <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
-<script type="text/javascript" src="../static/js/user/addconsult.js" charset="utf-8"></script>
+<script type="text/javascript" src="../static/js/doctor/dealconsult.js" charset="utf-8"></script>
 <script type="text/javascript" src="../static/js/common/common.js" charset="utf-8"></script>
 </body>
 </html>

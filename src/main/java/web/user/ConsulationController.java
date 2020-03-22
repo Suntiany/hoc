@@ -1,5 +1,6 @@
 package web.user;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.Consultation;
 import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,52 @@ public class ConsulationController {
         if(consultationList.size()>0){
             modelMap.put("success",true);
             modelMap.put("consultationList",consultationList);
+        }else{
+            modelMap.put("success",false);
+        }
+        return modelMap;
+    }
+
+    @RequestMapping(value="/getconsultbydoctor",method = RequestMethod.GET)
+    @ResponseBody
+    private Map<String,Object> selectbyDoctorId(HttpServletRequest request) {
+        Map<String,Object> modelMap = new HashMap<String, Object>();
+        long userId = Long.parseLong(request.getParameter("userId"));
+        long doctorId = 4L;
+        List<Consultation> consultationList = consultationService.getConsultByDoctorId(doctorId,userId);
+        if(consultationList.size()>0){
+            modelMap.put("success",true);
+            modelMap.put("consultationList",consultationList);
+        }else {
+            modelMap.put("success",false);
+        }
+        return modelMap;
+    }
+
+    @RequestMapping(value="/dealconsultbyconsultid",method = RequestMethod.POST)
+    @ResponseBody
+    private Map<String,Object> updateConsultation(HttpServletRequest request) {
+        Map<String,Object> modelMap = new HashMap<String, Object>();
+        if(!CodeUtil.checkVerifyCode(request)){
+            modelMap.put("success",false);
+            modelMap.put("errMsg","输入了错误的验证码");
+            return modelMap;
+        }
+        int consultId = Integer.parseInt(request.getParameter("consultId"));
+        String comment = HttpServletRequestUtil.getString(request,"comment");
+        Consultation consultation = new Consultation();
+        try{
+            consultation.setConsultId(consultId);
+            consultation.setComment(comment);
+            consultation.setStatus("已建议");
+        }catch (Exception e){
+            modelMap.put("success",false);
+            modelMap.put("errMsg",e.getMessage());
+            return modelMap;
+        }
+        int effectedNum = consultationService.update(consultation);
+        if(effectedNum>0){
+            modelMap.put("success",true);
         }else{
             modelMap.put("success",false);
         }

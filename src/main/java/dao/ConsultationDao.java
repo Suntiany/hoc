@@ -1,6 +1,7 @@
 package dao;
 
 import entity.Consultation;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -24,7 +25,12 @@ public interface ConsultationDao {
 
 
     /**
-     * 医生通过自己的DoctorId 查询与自己相关的问诊
+     * 医生通过自己的DoctorId 查询与自己相关的用户的问诊
      */
-    List<Consultation> selectByDoctorId(Long doctorId);
+    List<Consultation> selectByDoctorId(@Param("doctorId") Long doctorId,@Param("userId") Long userId);
+
+    /**
+     * 通过ConsultId来获取问诊单信息
+     */
+    Consultation selectByConsultId(long consultId);
 }

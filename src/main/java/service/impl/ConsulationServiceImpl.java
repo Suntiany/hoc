@@ -25,7 +25,23 @@ public class ConsulationServiceImpl implements ConsultationService {
     }
 
     @Override
+    public int update(Consultation consultation) {
+        int effectedNum = consultationDao.update(consultation);
+        return effectedNum;
+    }
+
+    @Override
     public List<Consultation> getConsultByUserId(long userId) {
         return consultationDao.selectByUserId(userId);
+    }
+
+    @Override
+    public List<Consultation> getConsultByDoctorId(long doctorId,long userId) {
+        return consultationDao.selectByDoctorId(doctorId,userId);
+    }
+
+    @Override
+    public Consultation getConsultByConsultId(long consultId) {
+        return consultationDao.selectByConsultId(consultId);
     }
 }

@@ -34,7 +34,7 @@
             <if test="comment !=null">comment=#{comment},</if>
             <if test="status !=null">status=#{status}</if>
         </set>
-        WHERE doctor_id=#{doctorId} AND user_id = #{userId}
+        WHERE consult_id=#{consultId}
     </update>
     <select id="selectByUserId" resultMap="ConsultMap" parameterType="Long">
         SELECT
@@ -75,5 +75,28 @@
         c.user_id = u.user_id
         AND
         c.doctor_id = #{doctorId}
+        AND
+        c.user_id = #{userId}
+    </select>
+    <select id="selectByConsultId" resultMap="ConsultMap" parameterType="Long">
+        SELECT
+        c.consult_id,
+        c.user_id,
+        c.doctor_id,
+        c.create_time,
+        c.last_edit_time,
+        c.symptom,
+        c.comment,
+        c.status,
+        u.user_id,
+        u.user_name,
+        u.phone,
+        u.email
+        from tb_consaulation c,
+        tb_user u
+        WHERE
+        c.user_id = u.user_id
+        AND
+        consult_id = #{consultId}
     </select>
 </mapper>

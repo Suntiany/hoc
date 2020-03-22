@@ -32,8 +32,7 @@ public class ConsulatDaoTest extends BaseTest {
     @Test
     public void testUpdate(){
         Consultation consultation = new Consultation();
-        consultation.setUserId(9L);
-        consultation.setDoctorId(3L);
+        consultation.setConsultId(4);
         consultation.setComment("多喝热水");
         consultation.setStatus("已建议");
         int effectedNum = consultationDao.update(consultation);
@@ -47,8 +46,15 @@ public class ConsulatDaoTest extends BaseTest {
     }
     @Test
     public void testSelectByDoctorId(){
-        List<Consultation> consultationList = consultationDao.selectByDoctorId(3L);
+        List<Consultation> consultationList = consultationDao.selectByDoctorId(4L,3L);
         System.out.println(consultationList.size());
         System.out.println(consultationList.get(0).getUser().getPhone());
+    }
+
+    @Test
+    public void testSelectByConsultId(){
+        Consultation consultation = new Consultation();
+        consultation = consultationDao.selectByConsultId(4L);
+        System.out.println(consultation.getStatus());
     }
 }

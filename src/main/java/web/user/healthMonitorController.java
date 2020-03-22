@@ -59,6 +59,7 @@ public class healthMonitorController {
         return modelMap;
     }
 
+
     @RequestMapping(value="/gethealthinfobysession",method = RequestMethod.GET)
     @ResponseBody
     private Map<String,Object> getHealthInfo(HttpServletRequest request){
@@ -118,6 +119,58 @@ public class healthMonitorController {
             modelMap.put("success",true);
         }else{
             modelMap.put("success",false);
+        }
+        return modelMap;
+    }
+
+    /**
+     * 医生系统通过userId来获取用户健康信息
+     */
+    @RequestMapping(value="/gethealthinfobyuserid",method = RequestMethod.GET)
+    @ResponseBody
+    private Map<String,Object> getHealthInfoByUser(HttpServletRequest request){
+        Map<String,Object> modelMap = new HashMap<String, Object>();
+        long userId = Long.parseLong(request.getParameter("userId"));
+        List<HealthMonitor> healthMonitorList = healthMonitorService.getHealthMonitorByUserId(userId);
+        List<EchartSeries> series = new ArrayList<EchartSeries>();
+        List<Date> dateList = new ArrayList<Date>();
+        List<Float> bloodPressureHighList = new ArrayList<Float>();
+        List<Float> bloodPressureLowList = new ArrayList<Float>();
+        List<Float> bloodGlucoseList = new ArrayList<Float>();
+        List<Float> heartRateList = new ArrayList<Float>();
+        EchartSeries es1 = new EchartSeries();
+        EchartSeries es2 = new EchartSeries();
+        EchartSeries es3 = new EchartSeries();
+        EchartSeries es4 = new EchartSeries();
+        if(healthMonitorList.size()>0) {
+            for (int i = 0; i <healthMonitorList.size(); i++) {
+                heartRateList.add(healthMonitorList.get(i).getHeartRate());
+                bloodGlucoseList.add(healthMonitorList.get(i).getBloodGlucose());
+                bloodPressureHighList.add(healthMonitorList.get(i).getBloodPressureHigh());
+                bloodPressureLowList.add(healthMonitorList.get(i).getBloodPressureLow());
+            }
+            es1.setName("上血压");
+            es1.setType("line");
+            es1.setData(bloodPressureHighList);
+            es2.setName("下血压");
+            es2.setType("line");
+            es2.setData(bloodPressureLowList);
+            es3.setName("血糖");
+            es3.setType("bar");
+            es3.setData(bloodGlucoseList);
+            es4.setName("心率");
+            es4.setType("bar");
+            es4.setData(heartRateList);
+            series.add(es1);
+            series.add(es2);
+            series.add(es3);
+            series.add(es4);
+            modelMap.put("series",series);
+            modelMap.put("success",true);
+            modelMap.put("xAxis",dateList);
+        }else {
+            modelMap.put("success", false);
+            modelMap.put("errMsg", "empty userId");
         }
         return modelMap;
     }
