@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.DoctorAuthDao">
+    <resultMap id="DoctorAuthResultMap" type="entity.DoctorAuth">
+        <id column="local_doctor_id" property="localDoctorId"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_edit_time" property="lastEditTime"/>
+        <association property="doctor" column="doctor_id" javaType="entity.Doctor">
+            <id column="doctor_id" property="doctorId"/>
+            <result column="doctor_name" property="doctorName"/>
+        </association>
+    </resultMap>
+    <insert id="insert" useGeneratedKeys="true" keyColumn="local_doctor_id" keyProperty="localDoctorId">
+        INSERT INTO tb_doctor_auth(doctor_id,username,password,create_time,last_edit_time)
+        VALUES (#{doctor.doctorId},#{username},#{password},#{createTime},#{lastEditTime})
+    </insert>
+    <select id="login" resultMap="DoctorAuthResultMap" parameterType="String">
+        SELECT
+        l.local_doctor_id,
+        l.username,
+        l.password,
+        l.create_time,
+        l.last_edit_time,
+        d.doctor_id
+        FROM
+        tb_doctor_auth l
+        lEFT
+        JOIN
+        tb_doctor d
+        ON l.doctor_id=d.doctor_id
+        WHERE
+        l.username=#{username}
+        AND
+        l.password=#{password}
+   </select>
+    <update id="updateDoctorAuth">
+        update tb_doctor_auth
+        <set>
+            <if test="newPassword!=null">password=#{newPassword},</if>
+            <if test="lastEditTime!=null">last_edit_time=#{lastEditTime}</if>
+        </set>
+        where doctor_id=#{doctorId}
+        AND username=#{username}
+        AND password=#{password}
+    </update>
+    <select id="queryDoctorByDoctorId" resultMap="DoctorAuthResultMap" parameterType="long">
+        SELECT
+        l.local_doctor_id,
+        l.username,
+        l.password,
+        l.create_time,
+        l.last_edit_time,
+        d.doctor_id
+        FROM
+        tb_doctor_auth l
+        lEFT
+        JOIN
+        tb_doctor d
+        ON l.doctor_id=d.doctor_id
+        WHERE
+        l.doctor_id=#{doctorId}
+    </select>
+</mapper>

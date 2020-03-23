@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dto.DoctorExecution;
 import dto.ImageHolder;
 import entity.Doctor;
+import entity.DoctorAuth;
 import entity.DoctorCategory;
 import entity.Hospital;
 import enums.DoctorStateEnum;

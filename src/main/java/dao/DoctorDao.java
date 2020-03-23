@@ -1,6 +1,7 @@
 package dao;
 
 import entity.Doctor;
+import entity.User;
 import org.apache.ibatis.annotations.Param;
 
 import javax.print.Doc;
@@ -46,4 +47,6 @@ public interface DoctorDao {
      * 删除医生信息
      */
     int deleteDoctor(@Param("doctorId") long doctorId,@Param("hospitalId") long hospitalId);
+
+    Doctor getDoctorIdByDoctorName(String doctorName);
 }

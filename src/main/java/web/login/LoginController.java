@@ -13,4 +13,6 @@ public class LoginController {
     }
     @RequestMapping(value="/userlogin",method = RequestMethod.GET)
     private String userlogin() {return "local/userlogin";}
+    @RequestMapping(value="/doctorlogin",method = RequestMethod.GET)
+    private String doctorligin(){return "local/doctorlogin";}
 }

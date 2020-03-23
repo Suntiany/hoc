@@ -55,4 +55,10 @@ public class DoctorDaoTest extends BaseTest {
         doctor.setDoctorDesc("十万伏特电疗大师");
         int effectedNum = doctorDao.updateDoctor(doctor);
     }
+    @Test
+    public void testGetDoctorByDoctorName(){
+        String DoctorName = "杨永信";
+        Doctor doctor = doctorDao.getDoctorIdByDoctorName(DoctorName);
+        System.out.println(doctor.getDoctorId());
+    }
 }

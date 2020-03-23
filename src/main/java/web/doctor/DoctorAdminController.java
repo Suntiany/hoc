@@ -1,7 +1,11 @@
 package web.doctor;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import dto.DoctorExecution;
 import dto.UserExecution;
 import entity.Consultation;
+import entity.DoctorAuth;
+import enums.DoctorStateEnum;
 import enums.UserStateEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,9 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.ConsultationService;
+import service.DoctorService;
 import service.UserService;
+import util.CodeUtil;
+import util.HttpServletRequestUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +30,8 @@ public class DoctorAdminController {
     private UserService userService;
     @Autowired
     private ConsultationService consultationService;
+    @Autowired
+    private DoctorService doctorService;
 
     /**
      * 医生端用户列表用来请求获得用户数据的URL
@@ -34,7 +44,7 @@ public class DoctorAdminController {
         //接收医生id 用来获取用户列表
         Map<String, Object> modelMap = new HashMap<String, Object>();
         //暂时做一个固定的医生id 做好登录功能后再改
-        Long doctorId = 4L;
+        Long doctorId = (Long)request.getSession().getAttribute("doctorId");
         try{
         UserExecution ue = userService.getByDoctorId(doctorId);
         if(ue.getState() ==UserStateEnum.SUCCESS.getState()){
@@ -72,6 +82,40 @@ public class DoctorAdminController {
             modelMap.put("errMsg",e.getMessage());
         }
         return modelMap;
+    }
+
+    @RequestMapping(value="/registeraccount",method = RequestMethod.POST)
+    @ResponseBody
+    private Map<String,Object> registeraccount(HttpServletRequest request) {
+        Map<String,Object> modelMap = new HashMap<String, Object>();
+        if(!CodeUtil.checkVerifyCode(request)){
+            modelMap.put("success",false);
+            modelMap.put("errMsg","输入了错误的验证码");
+            return modelMap;
+        }
+        String doctorAuthStr = HttpServletRequestUtil.getString(request,"doctorAuthStr");
+        ObjectMapper mapper = new ObjectMapper();
+        DoctorAuth doctorAuth = null;
+        try{
+            doctorAuth = mapper.readValue(doctorAuthStr,DoctorAuth.class);
+        }catch (Exception e){
+            modelMap.put("success",false);
+            modelMap.put("errMsg",e.getMessage());
+            return modelMap;
+        }
+        if(doctorAuth!=null){
+            DoctorExecution de = null;
+            de = doctorService.addDoctorAccount(doctorAuth);
+            if(de.getState()== DoctorStateEnum.SUCCESS.getState()){
+                modelMap.put("success",true);
+                modelMap.put("user",de.getDoctor());
+            }
+            return modelMap;
+        }else{
+            modelMap.put("success",false);
+            modelMap.put("errMsg","医生账户不存在");
+            return modelMap;
+        }
     }
 
 
@@ -121,5 +165,14 @@ public class DoctorAdminController {
     @RequestMapping(value="/dealconsult")
     public String dealconsult(){
         return "doctor/dealconsult";
+
+    }
+
+    /**
+     * 转发请求到WEB_INF 里面的/doctor/doctoraccount.html
+     */
+    @RequestMapping(value = "/doctoraccount")
+    public String registeterDoctorAccount(){
+        return "doctor/account";
     }
 }

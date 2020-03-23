@@ -1,10 +1,12 @@
 package service.impl;
 
+import dao.DoctorAuthDao;
 import dao.DoctorDao;
 import dao.DoctorImgDao;
 import dto.DoctorExecution;
 import dto.ImageHolder;
 import entity.Doctor;
+import entity.DoctorAuth;
 import entity.DoctorImg;
 import enums.DoctorStateEnum;
 import exceptions.DoctorOperationException;
@@ -26,13 +28,15 @@ public class DoctorServiceImpl implements DoctorService {
     private DoctorDao doctorDao;
     @Autowired
     private DoctorImgDao doctorImgDao;
+    @Autowired
+    private DoctorAuthDao doctorAuthDao;
     @Override
     @Transactional
     //1.处理缩略图，获取缩略图路径并赋值给doctor
     //2.往tb_doctor里写入doctor信息，获取doctorId
     //3.结合doctorId批量处理医生详情图
     //4.将医生详情图列表批量插入到tb_doctor_img中
-    public DoctorExecution addDoctor(Doctor doctor, ImageHolder thumbnail, List<ImageHolder> doctorImgList) throws DoctorOperationException {
+    public DoctorExecution addDoctor(Doctor doctor,ImageHolder thumbnail, List<ImageHolder> doctorImgList) throws DoctorOperationException {
         //空值判断
         if(doctor!=null && doctor.getHospital()!=null && doctor.getHospital().getHospitalId()!=null) {
             //给医生设置默认属性
@@ -129,6 +133,25 @@ public class DoctorServiceImpl implements DoctorService {
         return de;
     }
 
+    @Override
+    public DoctorExecution addDoctorAccount(DoctorAuth doctorAuth) {
+        String doctorName = doctorAuth.getUsername();
+        Doctor doctor = doctorDao.getDoctorIdByDoctorName(doctorName);
+        if(doctor==null){
+            return new DoctorExecution(DoctorStateEnum.EMPTY);
+        }else{
+            doctorAuth.setLastEditTime(new Date());
+            doctorAuth.setCreateTime(new Date());
+            doctorAuth.setDoctor(doctor);
+            int effectedNum = doctorAuthDao.insert(doctorAuth);
+            if(effectedNum>0){
+                return new DoctorExecution(DoctorStateEnum.SUCCESS);
+            }else{
+                return new DoctorExecution(DoctorStateEnum.INNER_ERROR);
+            }
+        }
+    }
+
     private void addDoctorImgList(Doctor doctor, List<ImageHolder> doctorImgList) {
         //获取图片路径，这里直接存放到某个文件夹下
         String dest = PathUtil.getHospitalImagePath(doctor.getHospital().getHospitalId());
@@ -158,4 +181,7 @@ public class DoctorServiceImpl implements DoctorService {
         String thumbnailAddr = ImageUtil.generateThumbnail(thumbnail,dest);
         doctor.setImgAddr(thumbnailAddr);
     }
+
+
+
 }

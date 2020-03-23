@@ -3,6 +3,7 @@ package service;
 import dto.DoctorExecution;
 import dto.ImageHolder;
 import entity.Doctor;
+import entity.DoctorAuth;
 import exceptions.DoctorOperationException;
 
 import java.util.List;
@@ -47,4 +48,9 @@ public interface DoctorService {
      */
     DoctorExecution getDoctorList(Doctor doctorCondition,int pageIndex,int pageSize);
 
+
+    /**
+     * 新增一条医生的账户信息 用于医生登录医生系统
+     */
+    DoctorExecution addDoctorAccount(DoctorAuth doctorAuth);
 }
