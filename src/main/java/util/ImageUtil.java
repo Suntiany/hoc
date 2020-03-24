@@ -62,8 +62,6 @@ public class ImageUtil {
 
 
     /**
-     * 创建目标路径所涉及到的目录，即/home/work/xiangze/xxx.jpg, 那么 home work xiangze
-     * 这三个文件夹都得自动创建
      *
      * @param targetAddr
      */
@@ -136,6 +134,12 @@ public class ImageUtil {
         File dest = new File(relativeAddr);
         logger.debug("current complete addr is :" + PathUtil.getImgBasePath() + relativeAddr);
         // 返回图片相对路径地址
+        return relativeAddr;
+    }
+
+    public static String generateHeadlineImg(ImageHolder thumbnail,String targetAddr) {
+        String filename = thumbnail.getImageName();
+        String relativeAddr = targetAddr+filename;
         return relativeAddr;
     }
 }

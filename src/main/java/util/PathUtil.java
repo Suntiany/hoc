@@ -16,4 +16,9 @@ public class PathUtil {
         String imagePath = "/upload/images/item/hospital/"+hospitalId+"/";
         return imagePath;
     }
+
+    public static String getHeadLineImagePath() {
+        String imagePath = "/ProjectPicture/";
+        return imagePath;
+    }
 }

@@ -1,5 +1,7 @@
 package service;
 
+import dto.HeadLineExecution;
+import dto.ImageHolder;
 import entity.HeadLine;
 import org.springframework.stereotype.Service;
 
@@ -15,4 +17,34 @@ public interface HeadLineService {
      * @throws IOException
      */
     List<HeadLine> getHeadLineList(HeadLine headLineCondition) throws IOException;
+
+    /**
+     * 添加头条信息，并存储头条图片
+     */
+    HeadLineExecution addHeadLine(HeadLine headLine, ImageHolder thumbnail);
+
+    /**
+     * 修改头条信息
+     *
+     * @param headLine
+     * @param thumbnail
+     * @return
+     */
+    HeadLineExecution modifyHeadLine(HeadLine headLine, ImageHolder thumbnail);
+
+    /**
+     * 删除单条头条
+     *
+     * @param headLineId
+     * @return
+     */
+    HeadLineExecution removeHeadLine(long headLineId);
+
+    /**
+     * 批量删除头条
+     *
+     * @param headLineIdList
+     * @return
+     */
+    HeadLineExecution removeHeadLineList(List<Long> headLineIdList);
 }
