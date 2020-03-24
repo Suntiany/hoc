@@ -85,7 +85,7 @@ public class DoctorAuthController {
         String password = HttpServletRequestUtil.getString(request, "password");
         // 获取新密码
         String newPassword = HttpServletRequestUtil.getString(request, "newPassword");
-        // 从session中获取当前用户信息(用户一旦通过微信登录之后，便能获取到用户的信息)
+        // 从session中获取当前用户信息
         Long doctorId = (Long)request.getSession().getAttribute("doctorId");
         //非空判断
         if(userName != null && password != null && newPassword != null &&doctorId>-1 && !password.equals(newPassword)){
@@ -106,7 +106,7 @@ public class DoctorAuthController {
                 }
             }catch (Exception e){
                 modelMap.put("success", false);
-                modelMap.put("errMsg", e.toString());
+                modelMap.put("errMsg", "密码错误");
                 return modelMap;
             }
         }else{

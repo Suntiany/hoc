@@ -175,4 +175,6 @@ public class DoctorAdminController {
     public String registeterDoctorAccount(){
         return "doctor/account";
     }
+
+
 }
