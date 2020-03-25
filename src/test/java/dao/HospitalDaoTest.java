@@ -72,4 +72,11 @@ public class HospitalDaoTest extends BaseTest {
         List<Hospital> hospitalList = hospitalDao.queryHospitalList(hospitalCondition,0,10);
         System.out.println("医院列表的大小：" +hospitalList.size());
     }
+
+    @Test
+    public void testSuperQueryHospitalList(){
+        Hospital hospitalCondition = new Hospital();
+        List<Hospital> hospitalList = hospitalDao.superAllHospitalList(hospitalCondition,0,10);
+        System.out.println("医院列表的大小：" +hospitalList.size());
+    }
 }

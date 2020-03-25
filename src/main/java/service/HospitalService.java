@@ -11,4 +11,5 @@ public interface HospitalService {
     HospitalExecution modifyHospital(Hospital hospital,ImageHolder thumbnail)throws HospitalOperationException;
     HospitalExecution getHospitalList(Hospital hospitalCondition,int pageIndex,int pageSize);
     HospitalExecution getAllHospitalList(Hospital hospitalCondition,int pageIndex,int pageSize);
+    HospitalExecution superGetAllHospitalList(Hospital hospitalCondition,int pageIndex,int pageSize);
 }

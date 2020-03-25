@@ -45,12 +45,18 @@ public interface HospitalDao {
     int queryHospitalCount(@Param("hospitalCondition") Hospital hospitalCondition);
 
     /**
-     * 获取数据库中所有医院的列表
+     * 获取数据库中所有医院的列表只有审核通过的
      * @param hospital
      * @param rowIndex
      * @param pageSize
      * @return
      */
     List<Hospital> allHospitalList(@Param("hospitalCondition") Hospital hospital,@Param("rowIndex") int rowIndex,@Param("pageSize") int pageSize);
+
+
+    /**
+     * 超级管理员获取所有医院列表包括未审核的
+     */
+    List<Hospital> superAllHospitalList(@Param("hospitalCondition") Hospital hospital,@Param("rowIndex") int rowIndex,@Param("pageSize") int pageSize);
 }
 

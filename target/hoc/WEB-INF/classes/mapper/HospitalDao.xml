@@ -149,4 +149,28 @@
         h.priority DESC
         LIMIT #{rowIndex},#{pageSize};
     </select>
+    <select id="superAllHospitalList" resultMap="hospitalMap">
+        SELECT
+        h.hospital_id,
+        h.hospital_name,
+        h.hospital_desc,
+        h.hospital_addr,
+        h.owner_name,
+        h.phone,
+        h.hospital_img,
+        h.priority,
+        h.create_time,
+        h.last_edit_time,
+        h.enable_status,
+        a.area_id,
+        a.area_name
+        FROM
+        tb_hospital h,
+        tb_area a
+        WHERE
+        h.area_id=a.area_id
+        ORDER BY
+        h.priority DESC
+        LIMIT #{rowIndex},#{pageSize};
+    </select>
 </mapper>
