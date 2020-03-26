@@ -108,9 +108,11 @@
         a.area_name
         FROM
         tb_user u,
-        tb_area a
-        LEFT JOIN tb_doctor d on u.doctor_id = d.doctor_id
+        tb_area a,
+        tb_doctor d
         WHERE
+        u.doctor_id = d.doctor_id
+        AND
         u.area_id = a.area_id
     </select>
     <select id="selectByAreaId" resultMap="userMap" parameterType="Integer">

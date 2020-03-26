@@ -19,10 +19,10 @@ public class SuperAdminController {
         return "superadmin/headlinemanage";
     }
 
-    @RequestMapping(value = "/shopcategorymanage", method = RequestMethod.GET)
+    @RequestMapping(value = "/usermanage", method = RequestMethod.GET)
     private String shopCategorymanage() {
         // 店铺类别管理页
-        return "superadmin/shopcategorymanage";
+        return "superadmin/usermanage";
     }
 
     @RequestMapping(value = "/hospitalmanage", method = RequestMethod.GET)

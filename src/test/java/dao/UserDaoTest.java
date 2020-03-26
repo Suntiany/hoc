@@ -42,7 +42,7 @@ public class UserDaoTest extends BaseTest {
     public void testUpdateUser(){
         User user = new User();
         user.setUserId(9L);
-        user.setLastEditTime(new Date());
+        user.setEnableStatus(0);
         int effectedNum = userDao.update(user);
         assertEquals(1,effectedNum);
     }

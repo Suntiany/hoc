@@ -54,4 +54,9 @@ public interface UserService {
      * @return
      */
     UserExecution getByDoctorId(Long doctorId);
+
+    /**
+     * 超级管理员更改User 账户状态
+     */
+    UserExecution suModify(User user);
 }

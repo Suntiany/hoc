@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
             return new UserExecution(UserStateEnum.NULL_USER);
         }else{
             try{
-                user.setUserId(2L);
+                //user.setUserId(2L);
                 user.setLastEditTime(new Date());
                 userAuth.setUser(user);
                 userAuth.setLastEditTime(new Date());
@@ -146,6 +146,25 @@ public class UserServiceImpl implements UserService {
             }
         }catch (Exception e){
             throw new UserOperationExecution("query doctor error" + e.getMessage());
+        }
+    }
+
+    @Override
+    public UserExecution suModify(User user) {
+        if(user==null||user.getUserId()==null){
+            return new UserExecution(UserStateEnum.NULL_USER);
+        }else{
+            try{
+                int effectedNum = userDao.update(user);
+                if(effectedNum<=0){
+                    return new UserExecution(UserStateEnum.INNER_ERROR);
+                }else{
+                    user = userDao.selectByUserId(user.getUserId());
+                    return  new UserExecution(UserStateEnum.SUCCESS,user);
+                }
+            }catch (Exception e){
+                throw new UserOperationExecution("modifyUser error" + e.getMessage());
+            }
         }
     }
 }
