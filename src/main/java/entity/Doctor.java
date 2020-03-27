@@ -69,6 +69,7 @@ public class Doctor {
         this.createTime = createTime;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getLastEditTime() {
         return lastEditTime;
     }

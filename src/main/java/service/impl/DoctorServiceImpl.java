@@ -5,11 +5,15 @@ import dao.DoctorDao;
 import dao.DoctorImgDao;
 import dto.DoctorExecution;
 import dto.ImageHolder;
+import dto.UserExecution;
 import entity.Doctor;
 import entity.DoctorAuth;
 import entity.DoctorImg;
+import entity.User;
 import enums.DoctorStateEnum;
+import enums.UserStateEnum;
 import exceptions.DoctorOperationException;
+import exceptions.UserOperationExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -148,6 +152,37 @@ public class DoctorServiceImpl implements DoctorService {
                 return new DoctorExecution(DoctorStateEnum.SUCCESS);
             }else{
                 return new DoctorExecution(DoctorStateEnum.INNER_ERROR);
+            }
+        }
+    }
+
+    @Override
+    public DoctorExecution suGetDoctorList() {
+        List<Doctor> doctorList = doctorDao.suGetDoctorList();
+        DoctorExecution de = new DoctorExecution();
+        if(doctorList!=null){
+            de.setDoctorList(doctorList);
+        }else{
+            de.setState(DoctorStateEnum.INNER_ERROR.getState());
+        }
+        return de;
+    }
+
+    @Override
+    public DoctorExecution suModifyDoctor(Doctor doctor) {
+        if(doctor==null||doctor.getDoctorId()==null){
+            return new DoctorExecution(DoctorStateEnum.EMPTY);
+        }else{
+            try{
+                int effectedNum = doctorDao.updateDoctor(doctor);
+                if(effectedNum<=0){
+                    return new DoctorExecution(DoctorStateEnum.INNER_ERROR);
+                }else{
+                    doctor = doctorDao.queryDoctorById(doctor.getDoctorId());
+                    return  new DoctorExecution(DoctorStateEnum.SUCCESS,doctor);
+                }
+            }catch (Exception e){
+                throw new DoctorOperationException("modifyDoctor error" + e.getMessage());
             }
         }
     }

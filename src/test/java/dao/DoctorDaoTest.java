@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -60,5 +61,13 @@ public class DoctorDaoTest extends BaseTest {
         String DoctorName = "杨永信";
         Doctor doctor = doctorDao.getDoctorIdByDoctorName(DoctorName);
         System.out.println(doctor.getDoctorId());
+    }
+
+    @Test
+    public void testSuGetDoctorList(){
+        List<Doctor> doctorList = doctorDao.suGetDoctorList();
+        System.out.println(doctorList.size());
+        System.out.println(doctorList.get(0).getHospital().getHospitalName());
+        System.out.println(doctorList.get(0).getDoctorCategory().getDoctorCategoryName());
     }
 }

@@ -31,10 +31,10 @@ public class SuperAdminController {
         return "superadmin/hospitalmanage";
     }
 
-    @RequestMapping(value = "/personinfomanage", method = RequestMethod.GET)
+    @RequestMapping(value = "/doctormanage", method = RequestMethod.GET)
     private String personInfomanage() {
         // 用户信息管理页
-        return "superadmin/personinfomanage";
+        return "superadmin/doctormanage";
     }
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
@@ -43,11 +43,7 @@ public class SuperAdminController {
         return "superadmin/main";
     }
 
-    @RequestMapping(value = "/top", method = RequestMethod.GET)
-    private String top() {
-        // 超级管理员frame top部分
-        return "superadmin/top";
-    }
+
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     private String login() {

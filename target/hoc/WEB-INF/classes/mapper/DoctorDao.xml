@@ -77,7 +77,6 @@
             <if test="priority !=null">priority=#{priority},</if>
             <if test="lastEditTime != null">last_edit_time=#{lastEditTime},</if>
             <if test="enableStatus != null">enable_status=#{enableStatus},</if>
-            <!--TODO			<if test="point != null">point=#{point},</if>-->
             <if test="doctorCategory !=null and doctorCategory.doctorCategoryId !=null">
                 doctor_category_id=#{doctorCategory.doctorCategoryId}
             </if>
@@ -115,16 +114,16 @@
         tb_doctor
         <where>
             <if test="doctorCondition.hospital!=null and doctorCondition.hospital.hospitalId!=null">
-                and hospital_id=#{doctorCondition.hospital.hospitalId}
+                and d.hospital_id=#{doctorCondition.hospital.hospitalId}
             </if>
             <if test="doctorCondition.doctorCategory!=null and doctorCondition.doctorCategory.doctorCategoryId!=null">
-                and doctor_category_id=#{doctorCondition.doctorCategory.doctorCategoryId}
+                and d.doctor_category_id=#{doctorCondition.doctorCategory.doctorCategoryId}
             </if>
             <if test="doctorCondition.doctorName!=null">
-                and doctor_name like '%${doctorCondition.doctorName}'
+                and d.doctor_name like '%${doctorCondition.doctorName}'
             </if>
             <if test="doctorCondition.enableStatus!=null">
-                and enable_status = #{doctorCondition.enableStatus}
+                and d.enable_status = #{doctorCondition.enableStatus}
             </if>
         </where>
         ORDER BY
@@ -162,5 +161,28 @@
         tb_doctor
         WHERE
         doctor_name=#{doctorName}
+    </select>
+    <select id="suGetDoctorList" resultMap="doctorMap">
+        SELECT
+        d.doctor_id,
+        d.doctor_name,
+        d.doctor_desc,
+        d.img_addr,
+        d.priority,
+        d.create_time,
+        d.last_edit_time,
+        d.enable_status,
+        h.hospital_id,
+        h.hospital_name,
+        dc.doctor_category_id,
+        dc.doctor_category_name
+        FROM
+        tb_doctor d,
+        tb_doctor_category dc,
+        tb_hospital h
+        where
+        dc.doctor_category_id = d.doctor_category_id
+        AND
+        h.hospital_id = d.hospital_id
     </select>
 </mapper>

@@ -48,5 +48,17 @@ public interface DoctorDao {
      */
     int deleteDoctor(@Param("doctorId") long doctorId,@Param("hospitalId") long hospitalId);
 
+    /**
+     * 通过医生名获取医生的ID
+     * @param doctorName
+     * @return
+     */
     Doctor getDoctorIdByDoctorName(String doctorName);
+
+    /**
+     * 超级管理员获取医生列表
+     * @return
+     */
+    List<Doctor> suGetDoctorList();
+
 }

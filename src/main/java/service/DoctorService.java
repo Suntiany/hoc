@@ -53,4 +53,19 @@ public interface DoctorService {
      * 新增一条医生的账户信息 用于医生登录医生系统
      */
     DoctorExecution addDoctorAccount(DoctorAuth doctorAuth);
+
+
+    /**
+     * 超级管理员获取医生的信息
+     * @return
+     */
+    DoctorExecution suGetDoctorList();
+
+
+    /**
+     * 超级管理员更改医生的信息  （主要是更改医生的账号的可用性）
+     * @param doctor
+     * @return
+     */
+    DoctorExecution suModifyDoctor(Doctor doctor);
 }
