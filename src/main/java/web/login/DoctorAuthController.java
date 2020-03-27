@@ -1,5 +1,6 @@
 package web.login;
 
+import entity.Doctor;
 import entity.DoctorAuth;
 import entity.UserAuth;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.DoctorAuthService;
+import service.DoctorService;
 import util.CodeUtil;
 import util.HttpServletRequestUtil;
 
@@ -20,6 +22,8 @@ import java.util.Map;
 public class DoctorAuthController {
     @Autowired
     private DoctorAuthService doctorAuthService;
+    @Autowired
+    private DoctorService doctorService;
 
     @RequestMapping(value="/doctorlogin",method = RequestMethod.POST)
     @ResponseBody
@@ -39,6 +43,12 @@ public class DoctorAuthController {
         // 非空校验
         if (username != null && password != null){
             DoctorAuth doctorAuth = doctorAuthService.login(username,password);
+            long doctorId = doctorAuth.getDoctor().getDoctorId();
+            Doctor doctor = doctorService.getDoctorById(doctorId);
+            if(doctor.getEnableStatus()==0){
+                modelMap.put("success",false);
+                return modelMap;
+            }
             if(doctorAuth!=null){
                 modelMap.put("success",true);
                 request.getSession().setAttribute("doctorId",doctorAuth.getDoctor().getDoctorId());

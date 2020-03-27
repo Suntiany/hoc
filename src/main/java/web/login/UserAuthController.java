@@ -1,6 +1,8 @@
 package web.login;
 
 import dto.UserAuthExecution;
+import entity.Doctor;
+import entity.User;
 import entity.UserAuth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.UserAuthService;
+import service.UserService;
 import util.CodeUtil;
 import util.HttpServletRequestUtil;
 
@@ -20,6 +23,8 @@ import java.util.Map;
 public class UserAuthController {
     @Autowired
     private UserAuthService userAuthService;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value="/userlogin",method = RequestMethod.POST)
     @ResponseBody
@@ -40,6 +45,12 @@ public class UserAuthController {
         if (username != null && password != null) {
             //传入用户账号和密码去登录
             UserAuth userAuth = userAuthService.Login(username,password);
+            long userId = userAuth.getUser().getUserId();
+            User user = userService.getByUserId(userId);
+            if(user.getEnableStatus()==0){
+                modelMap.put("success",false);
+                return modelMap;
+            }
             if(userAuth!=null) {
                 modelMap.put("success",true);
                 request.getSession().setAttribute("userId",userAuth.getUser().getUserId());
