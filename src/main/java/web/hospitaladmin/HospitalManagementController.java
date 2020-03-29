@@ -57,6 +57,7 @@ public class HospitalManagementController {
             Hospital currentHospital = new Hospital();
             currentHospital.setHospitalId(hospitalId);
             request.getSession().setAttribute("currentHospital",currentHospital);
+            modelMap.put("success",true);
             modelMap.put("redirect",false);
         }
         return modelMap;
@@ -174,6 +175,8 @@ public class HospitalManagementController {
     private Map<String,Object> getHospitalById(HttpServletRequest request){
         Map<String,Object> modelMap = new HashMap<String,Object>();
         Long hospitalId = HttpServletRequestUtil.getLong(request,"hospitalId");
+        //Hospital currentHospital = (Hospital)request.getSession().getAttribute("currentHospital");
+        //long hospitalId = currentHospital.getHospitalId();
         if(hospitalId>-1){
             try{
                 Hospital hospital = hospitalService.getByHospitalId(hospitalId);

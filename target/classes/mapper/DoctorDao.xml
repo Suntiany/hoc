@@ -114,16 +114,16 @@
         tb_doctor
         <where>
             <if test="doctorCondition.hospital!=null and doctorCondition.hospital.hospitalId!=null">
-                and d.hospital_id=#{doctorCondition.hospital.hospitalId}
+                and hospital_id=#{doctorCondition.hospital.hospitalId}
             </if>
             <if test="doctorCondition.doctorCategory!=null and doctorCondition.doctorCategory.doctorCategoryId!=null">
-                and d.doctor_category_id=#{doctorCondition.doctorCategory.doctorCategoryId}
+                and doctor_category_id=#{doctorCondition.doctorCategory.doctorCategoryId}
             </if>
             <if test="doctorCondition.doctorName!=null">
-                and d.doctor_name like '%${doctorCondition.doctorName}'
+                and doctor_name like '%${doctorCondition.doctorName}'
             </if>
             <if test="doctorCondition.enableStatus!=null">
-                and d.enable_status = #{doctorCondition.enableStatus}
+                and enable_status = #{doctorCondition.enableStatus}
             </if>
         </where>
         ORDER BY
