@@ -3,14 +3,17 @@ package web.user;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import dto.FriendExecution;
 import dto.UserExecution;
+import entity.Doctor;
 import entity.Friend;
 import entity.Hospital;
+import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.FriendService;
+import service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -23,6 +26,8 @@ import java.util.Map;
 public class FriendController {
     @Autowired
     private FriendService friendService;
+    @Autowired
+    private UserService userService;
 
     /**
      * 处理用户通过hospitalId发送的签约请求
@@ -95,11 +100,18 @@ public class FriendController {
         friend.setUserId(userId);
         Long hospitalId = Long.parseLong(request.getParameter("hospitalId"));
         friend.setHospitalId(hospitalId);
+        User user = new User();
+        Doctor doctor = new Doctor();
+        doctor.setDoctorId(0L);
+        user.setDoctor(doctor);
+        user.setUserId(userId);
         try{
             if(friend.getUserId()>-1&&friend.getHospitalId()>-1){
                 FriendExecution fe = friendService.deleteFriendShip(friend);
+                UserExecution ue = userService.suModify(user);
                 modelMap.put("success",true);
                 modelMap.put("friend",fe.getFriend());
+                modelMap.put("user",ue.getUser());
             }else{
                 modelMap.put("success",false);
                 modelMap.put("errMsg","提交信息为空");
@@ -121,13 +133,20 @@ public class FriendController {
         Friend friend = new Friend();
         Long userId = Long.parseLong(request.getParameter("userId"));
         friend.setUserId(userId);
+        User user = new User();
+        Doctor doctor = new Doctor();
+        doctor.setDoctorId(0L);
+        user.setDoctor(doctor);
+        user.setUserId(userId);
         Hospital currentHospital = (Hospital)request.getSession().getAttribute("currentHospital");
         friend.setHospitalId(currentHospital.getHospitalId());
         try{
             if(friend.getUserId()>-1&&friend.getHospitalId()>-1){
                 FriendExecution fe = friendService.deleteFriendShip(friend);
+                UserExecution ue = userService.suModify(user);
                 modelMap.put("success",true);
                 modelMap.put("friend",fe.getFriend());
+                modelMap.put("user",ue.getUser());
             }else{
                 modelMap.put("success",false);
                 modelMap.put("errMsg","提交信息为空");

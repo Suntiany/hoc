@@ -41,7 +41,7 @@ public class UserDaoTest extends BaseTest {
     @Test
     public void testUpdateUser(){
         User user = new User();
-        user.setUserId(9L);
+        user.setUserId(22L);
         user.setEnableStatus(0);
         int effectedNum = userDao.update(user);
         assertEquals(1,effectedNum);
