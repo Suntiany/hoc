@@ -10,6 +10,7 @@
         <result column="symptom" property="symptom"/>
         <result column="comment" property="comment"/>
         <result column="status" property="status"/>
+        <result column="medical_record" property="medicalRecord"/>
         <association property="user" column="user_id" javaType="entity.User">
             <id column="user_id" property="userId"/>
             <result column="user_name" property="userName"/>
@@ -23,8 +24,8 @@
         </association>
     </resultMap>
     <insert id="insert" useGeneratedKeys="true" keyProperty="consultId" keyColumn="consult_id" parameterType="entity.Consultation">
-        INSERT INTO tb_consaulation(user_id,doctor_id,create_time,last_edit_time,symptom,comment,status)
-        VALUES (#{userId},#{doctorId},#{createTime},#{lastEditTime},#{symptom},#{comment},#{status})
+        INSERT INTO tb_consaulation(user_id,doctor_id,create_time,last_edit_time,symptom,comment,status,medical_record)
+        VALUES (#{userId},#{doctorId},#{createTime},#{lastEditTime},#{symptom},#{comment},#{status},#{medicalRecord})
     </insert>
     <update id="update" parameterType="entity.Consultation" keyColumn="consult_id" useGeneratedKeys="true">
         update tb_consaulation
@@ -46,6 +47,7 @@
         c.symptom,
         c.comment,
         c.status,
+        c.medical_record,
         d.doctor_id,
         d.doctor_name
         from tb_consaulation c,
@@ -63,6 +65,7 @@
         c.create_time,
         c.last_edit_time,
         c.symptom,
+        c.medical_record,
         c.comment,
         c.status,
         u.user_id,
@@ -86,6 +89,7 @@
         c.create_time,
         c.last_edit_time,
         c.symptom,
+        c.medical_record,
         c.comment,
         c.status,
         u.user_id,

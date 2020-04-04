@@ -1,6 +1,7 @@
 package web.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dto.ImageHolder;
 import entity.Consultation;
 import entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +9,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import service.ConsultationService;
 import service.UserService;
 import util.CodeUtil;
 import util.HttpServletRequestUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +41,21 @@ public class ConsulationController {
             modelMap.put("errMsg","输入了错误的验证码");
             return modelMap;
         }
+        ImageHolder thumbnail = null;
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+        try{
+            if(multipartResolver.isMultipart(request)) {
+                thumbnail = handleImage(request,thumbnail);
+            }else {
+                modelMap.put("success", false);
+                modelMap.put("errMsg", "上传图片不能为空");
+                return modelMap;
+            }
+        }catch (Exception e){
+            modelMap.put("success", false);
+            modelMap.put("errMsg", e.toString());
+            return modelMap;
+        }
         String symptom = HttpServletRequestUtil.getString(request,"consultInfo");
         Long userId = (Long)request.getSession().getAttribute("userId");
         User user  = userService.getByUserId(userId);
@@ -48,7 +68,7 @@ public class ConsulationController {
         consultation.setDoctorId(doctorId);
         consultation.setUserId(userId);
         consultation.setSymptom(symptom);
-        int effectedNum = consultationService.insert(consultation);
+        int effectedNum = consultationService.insert(consultation,thumbnail);
         if(effectedNum<0){
             modelMap.put("success",false);
         }else{
@@ -116,5 +136,15 @@ public class ConsulationController {
             modelMap.put("success",false);
         }
         return modelMap;
+    }
+
+    private ImageHolder handleImage(HttpServletRequest request, ImageHolder thumbnail) throws IOException {
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        // 取出缩略图并构建ImageHolder对象
+        CommonsMultipartFile thumbnailFile = (CommonsMultipartFile) multipartRequest.getFile("thumbnail");
+        if (thumbnailFile != null) {
+            thumbnail = new ImageHolder(thumbnailFile.getOriginalFilename(), thumbnailFile.getInputStream());
+        }
+        return thumbnail;
     }
 }

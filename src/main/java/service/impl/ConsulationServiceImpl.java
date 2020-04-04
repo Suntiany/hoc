@@ -1,11 +1,15 @@
 package service.impl;
 
 import dao.ConsultationDao;
+import dto.ImageHolder;
 import entity.Consultation;
+import entity.Doctor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.ConsultationService;
 import service.UserService;
+import util.ImageUtil;
+import util.PathUtil;
 
 import java.util.List;
 
@@ -20,8 +24,19 @@ public class ConsulationServiceImpl implements ConsultationService {
      * @return
      */
     @Override
-    public int insert(Consultation consultation) {
-        return consultationDao.insert(consultation);
+    public int insert(Consultation consultation, ImageHolder thumbnail) {
+        if(thumbnail!=null){
+            addThumbnail(consultation,thumbnail);
+        }
+        try{
+            int effectedNum = consultationDao.insert(consultation);
+            if(effectedNum<=0) {
+                throw new RuntimeException("创建问诊失败");
+            }
+            return effectedNum;
+        }catch (Exception e){
+            throw new RuntimeException("创建问诊失败" + e.toString());
+        }
     }
 
     @Override
@@ -43,5 +58,11 @@ public class ConsulationServiceImpl implements ConsultationService {
     @Override
     public Consultation getConsultByConsultId(long consultId) {
         return consultationDao.selectByConsultId(consultId);
+    }
+
+    private void addThumbnail(Consultation consultation, ImageHolder thumbnail) {
+        String dest = PathUtil.getHeadLineImagePath();
+        String thumbnailAddr = ImageUtil.generateHeadlineImg(thumbnail,dest);
+        consultation.setMedicalRecord(thumbnailAddr);
     }
 }

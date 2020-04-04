@@ -2,8 +2,10 @@ $(function () {
     var addConsultUrl = "/hoc/user/addconsultbysession"
     $('#submit').click(function () {
         var consultInfo = $('#consult-info').val();
+        var thumbnail = $('#small-img')[0].files[0];
         var formData = new FormData();
         formData.append("consultInfo",consultInfo);
+        formData.append('thumbnail',thumbnail);
         var verifyCodeActual = $('#j_captcha').val();
         if(!verifyCodeActual){
             $.toast('请输入验证码');

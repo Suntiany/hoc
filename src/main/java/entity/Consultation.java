@@ -11,10 +11,19 @@ public class Consultation {
     private String symptom;
     private String comment;
     private String status;
+    private String medicalRecord;
     private Long userId;
     private Long doctorId;
     private User user;
     private Doctor doctor;
+
+    public String getMedicalRecord() {
+        return medicalRecord;
+    }
+
+    public void setMedicalRecord(String medicalRecord) {
+        this.medicalRecord = medicalRecord;
+    }
 
     public Long getUserId() {
         return userId;

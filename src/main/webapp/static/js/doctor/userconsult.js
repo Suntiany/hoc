@@ -8,7 +8,10 @@ $(function() {
                 var consultationList = data.consultationList;
                 console.log(consultationList);
                 consultationList.map(function (item,index) {
-                    var cardHTML = '<div class="card"'+'id='+item.consultId+ '>' +
+                    var cardHTML = '<div class="card"'+'id='+item.consultId+ '>' +"病历："+
+                        '<div valign="bottom" class="card-header color-white no-border no-padding">'+
+                        '<img class="card-cover" id="doctor-img"' + "src=" +item.medicalRecord+'>'+
+                        '</div>'+
                         '<div class="card-header">'+"问诊时间："+item.createTime + '</div>' +
                         '<div class="card-content">' +
                         '<div class="card-content-inner">' +"症状："+
