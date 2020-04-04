@@ -162,5 +162,30 @@
         AND
         u.area_id = a.area_id
     </select>
-
+    <select id="queryUserList" resultMap="userMap">
+         SELECT
+        u.user_id,
+        u.user_name,
+        u.email,
+        u.addr,
+        u.phone,
+        u.gender,
+        u.create_time,
+        u.last_edit_time,
+        u.enable_status,
+        a.area_id,
+        a.area_name,
+        d.doctor_id,
+        d.doctor_name
+        FROM
+        tb_user u,tb_area a,tb_doctor d
+        WHERE
+        u.doctor_id = #{doctorId}
+        AND
+        u.user_name like '%${userCondition.userName}%'
+        AND
+        u.doctor_id = d.doctor_id
+        AND
+        u.area_id = a.area_id
+    </select>
 </mapper>

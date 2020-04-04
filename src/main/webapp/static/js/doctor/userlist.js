@@ -46,4 +46,25 @@ $(function() {
             return '';
         }
     }
+
+    $('#search').on('change',function (e) {
+        var userName = e.target.value;
+        $('.shop-wrap').empty();
+        var formData = new FormData();
+        formData.append("userStr",userName);
+        $.ajax({
+            url : "/hoc/doctor/getuser",
+            type:'POST',
+            data:formData,
+            contentType:false,
+            processData:false,
+            cache:false,
+            success : function(data) {
+                if (data.success) {
+                    console.log(data.userList);
+                    handleList(data.userList);
+                }
+            }
+        });
+    })
 });

@@ -55,6 +55,13 @@ public interface UserService {
      */
     UserExecution getByDoctorId(Long doctorId);
 
+
+    /**
+     * 医生通过搜索框输入用户名可以进行模糊查询用户信息
+     */
+    UserExecution getByDoctorIdAndUserCondition(User userCondition,Long doctorId);
+
+
     /**
      * 超级管理员更改User 账户状态
      */

@@ -145,7 +145,21 @@ public class UserServiceImpl implements UserService {
                 return new UserExecution(UserStateEnum.NULL_USER);
             }
         }catch (Exception e){
-            throw new UserOperationExecution("query doctor error" + e.getMessage());
+            throw new UserOperationExecution("query user error" + e.getMessage());
+        }
+    }
+
+    @Override
+    public UserExecution getByDoctorIdAndUserCondition(User userCondition, Long doctorId) {
+        List<User> userList = userDao.queryUserList(userCondition,doctorId);
+        try{
+            if(userList.size()>0) {
+                return new UserExecution(UserStateEnum.SUCCESS,userList);
+            }else{
+                return new UserExecution(UserStateEnum.NULL_USER);
+            }
+        }catch (Exception e){
+            throw new UserOperationExecution("query user error"+e.getMessage());
         }
     }
 

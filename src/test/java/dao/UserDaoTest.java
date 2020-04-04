@@ -88,4 +88,12 @@ public class UserDaoTest extends BaseTest {
         System.out.println(userList.size());
         System.out.println(userList.get(0).getDoctor().getDoctorName());
     }
+    @Test
+    public void testQueryUserList() {
+        User userCondition = new User();
+        userCondition.setUserName("丽");
+        List<User> userList = userDao.queryUserList(userCondition,4);
+        System.out.println(userList.size());
+        System.out.println(userList.get(0).getUserId());
+    }
 }

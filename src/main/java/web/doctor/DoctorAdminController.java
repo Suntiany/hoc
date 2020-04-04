@@ -5,6 +5,7 @@ import dto.DoctorExecution;
 import dto.UserExecution;
 import entity.Consultation;
 import entity.DoctorAuth;
+import entity.User;
 import enums.DoctorStateEnum;
 import enums.UserStateEnum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,6 @@ public class DoctorAdminController {
     private Map<String,Object> addDoctor(HttpServletRequest request) {
         //接收医生id 用来获取用户列表
         Map<String, Object> modelMap = new HashMap<String, Object>();
-        //暂时做一个固定的医生id 做好登录功能后再改
         Long doctorId = (Long)request.getSession().getAttribute("doctorId");
         try{
         UserExecution ue = userService.getByDoctorId(doctorId);
@@ -59,6 +59,40 @@ public class DoctorAdminController {
             modelMap.put("errMsg",e.getMessage());
         }
         return modelMap;
+    }
+
+
+    /**
+     * 医生端通过用户名（模糊）查询获得用户信息
+     */
+    @RequestMapping(value="/getuser",method = RequestMethod.POST)
+    @ResponseBody
+    private Map<String,Object> getUser(HttpServletRequest request) {
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        //接收医生id
+        long doctorId = (Long)request.getSession().getAttribute("doctorId");
+        String userStr = HttpServletRequestUtil.getString(request,"userStr");
+        User user = new User();
+        //接收用户Condition
+        try{
+            user.setUserName(userStr);
+        }catch (Exception e){
+            modelMap.put("success",false);
+            modelMap.put("errMsg",e.getMessage());
+            return modelMap;
+        }
+        if(user!=null){
+            UserExecution ue = userService.getByDoctorIdAndUserCondition(user,doctorId);
+            if(ue.getState()==UserStateEnum.SUCCESS.getState()){
+                modelMap.put("success",true);
+                modelMap.put("userList",ue.getUserList());
+            }
+            return modelMap;
+        }else{
+            modelMap.put("success",false);
+            modelMap.put("errMsg","用户名不存在");
+            return modelMap;
+        }
     }
 
     /**
