@@ -35,4 +35,6 @@ public class UserAdminController {
     public String consultrecord(){
         return "user/consultrecord";
     }
+    @RequestMapping(value="/consultreply",method = RequestMethod.GET)
+    public String consultreply(){return "user/consultreply";}
 }

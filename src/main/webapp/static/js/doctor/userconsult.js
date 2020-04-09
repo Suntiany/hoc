@@ -18,8 +18,9 @@ $(function() {
                         item.symptom +
                         '</div>' +
                         '</div>' +
-                        '<div class="card-footer">' +"医生建议："+item.comment+'<br>'+"问诊单状态："+item.status+'</div>'+
-                        '</div>';
+                        '<div class="card-footer no-border">' +"医生建议："+item.comment+'<br>'+"问诊单状态："+item.status+'</div>'+
+                        '</div>' +
+                         goConsultReply(item.consultId);
                     $('.card-container').append(cardHTML);
                 })
 
@@ -35,5 +36,18 @@ $(function() {
             window.location.href = '/hoc/doctor/dealconsult?consultId='
                 + consultId;
         });
+
+
+
+    function goConsultReply(consultId) {
+        return '<a href="/hoc/user/consultreply?consultId=' + consultId
+            + '" style="font-size: 20px;padding-left: 75%">更多回复</a>';
+    }
+
+    // function dealConsult(consultId) {
+    //     return  '<a href="/hoc/doctor/dealconsult?consultId=' + consultId
+    //         +'" onclick="window.location.href">诊断处理</a>';
+    //
+    // }
 
 })

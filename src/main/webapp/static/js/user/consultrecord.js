@@ -17,12 +17,19 @@ $(function() {
                         '<div class="card-content-inner">' +"症状："+
                         item.symptom +
                         '</div>' +
-                        '<div class="card-footer no-border">' +"医生建议："+item.comment+'<br>'+"问诊单状态："+item.status+'<br>'+'<a href="#" class="link">更多回复</a>'+'</div>'+
+                        '<div class="card-footer no-border">' +"医生建议："+item.comment+'<br>'+"问诊单状态："+item.status+'<br>'+goConsultReply(item.consultId)+'</div>'+
                         '</div>';
                     $('.card-container').append(cardHTML);
                 })
 
             }
         })
+    }
+
+
+    function goConsultReply(consultId) {
+        return '<a href="/hoc/user/consultreply?consultId=' + consultId
+            + '">更多回复</a>';
+
     }
 })

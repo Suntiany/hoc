@@ -1,0 +1,16 @@
+.row-doctor-category{
+    border: 1px solid #999;
+    padding:.5rem;
+    border-bottom:none;
+}
+.row-doctor-category:last-child{
+    border-bottom: 1px solid #999;
+}
+.category-input{
+    border:none;
+    background-color:#eee;
+}
+.doctor-category-name{
+    white-space: nowrap;
+}
+
