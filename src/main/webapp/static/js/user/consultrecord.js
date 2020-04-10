@@ -29,7 +29,7 @@ $(function() {
 
     function goConsultReply(consultId) {
         return '<a href="/hoc/user/consultreply?consultId=' + consultId
-            + '">更多回复</a>';
+            + '" external>更多回复</a>';
 
     }
 })

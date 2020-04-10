@@ -40,8 +40,8 @@ $(function() {
 
 
     function goConsultReply(consultId) {
-        return '<a href="/hoc/user/consultreply?consultId=' + consultId
-            + '" style="font-size: 20px;padding-left: 75%">更多回复</a>';
+        return '<a href="/hoc/doctor/morereply?consultId=' + consultId
+            + '" style="font-size: 20px;padding-left: 75%" external>更多回复</a>';
     }
 
     // function dealConsult(consultId) {

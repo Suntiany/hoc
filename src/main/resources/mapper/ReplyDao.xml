@@ -16,6 +16,8 @@
         create_time
         FROM
         tb_reply
+        WHERE
+        consult_id=#{consultId}
         ORDER BY
         reply_id
     </select>

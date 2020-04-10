@@ -211,4 +211,9 @@ public class DoctorAdminController {
     }
 
 
+    /**
+     * 转发请求到WEb_INF 里面的/doctor/morereply.html
+     */
+    @RequestMapping(value="/morereply")
+    public String moreReply(){return "doctor/morereply";}
 }
