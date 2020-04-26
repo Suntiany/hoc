@@ -57,4 +57,23 @@ public class ConsulatDaoTest extends BaseTest {
         consultation = consultationDao.selectByConsultId(4L);
         System.out.println(consultation.getStatus());
     }
+
+    @Test
+    public void testQueryConsultList(){
+        Consultation consultation = new Consultation();
+        consultation.setSymptom("感冒");
+        consultation.setUserId(3L);
+        List<Consultation> consultationList = consultationDao.queryByUserId(consultation);
+        System.out.println(consultationList.get(0).getComment());
+    }
+
+    @Test
+    public void testQueryConsultListDoctor(){
+        Consultation consultation = new Consultation();
+        consultation.setUserId(3L);
+        consultation.setDoctorId(4L);
+        consultation.setSymptom("se");
+        List<Consultation> consultationList = consultationDao.queryByDoctorId(consultation);
+        System.out.println(consultationList.size());
+    }
 }

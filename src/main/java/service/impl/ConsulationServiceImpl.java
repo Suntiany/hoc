@@ -51,8 +51,18 @@ public class ConsulationServiceImpl implements ConsultationService {
     }
 
     @Override
+    public List<Consultation> queryListOfUser(Consultation consultation) {
+        return consultationDao.queryByUserId(consultation);
+    }
+
+    @Override
     public List<Consultation> getConsultByDoctorId(long doctorId,long userId) {
         return consultationDao.selectByDoctorId(doctorId,userId);
+    }
+
+    @Override
+    public List<Consultation> queryListOfDoctor(Consultation consultation) {
+        return consultationDao.queryByDoctorId(consultation);
     }
 
     @Override

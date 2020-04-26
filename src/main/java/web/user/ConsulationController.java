@@ -96,6 +96,47 @@ public class ConsulationController {
         return modelMap;
     }
 
+    @RequestMapping(value="/queryconsultofuser",method = RequestMethod.POST)
+    @ResponseBody
+    private Map<String,Object> queryConsultOfUser(HttpServletRequest request) {
+        Map<String,Object> modelMap = new HashMap<String, Object>();
+        Long userId = (Long)request.getSession().getAttribute("userId");
+        String symptom = HttpServletRequestUtil.getString(request,"symptom");
+        Consultation consultation = new Consultation();
+        consultation.setUserId(userId);
+        consultation.setSymptom(symptom);
+        List<Consultation> consultationList = consultationService.queryListOfUser(consultation);
+        if(consultationList.size()>0){
+            modelMap.put("success",true);
+            modelMap.put("consultationList",consultationList);
+        }else{
+            modelMap.put("success",false);
+        }
+        return modelMap;
+    }
+
+
+    @RequestMapping(value="/queryconsultofdoctor",method = RequestMethod.POST)
+    @ResponseBody
+    private Map<String,Object> queryConsultOfDoctor(HttpServletRequest request) {
+        Map<String,Object> modelMap = new HashMap<String, Object>();
+        long userId = Long.parseLong(request.getParameter("userId"));
+        long doctorId = 4L;
+        String symptom = HttpServletRequestUtil.getString(request,"symptom");
+        Consultation consultation = new Consultation();
+        consultation.setUserId(userId);
+        consultation.setDoctorId(doctorId);
+        consultation.setSymptom(symptom);
+        List<Consultation> consultationList = consultationService.queryListOfDoctor(consultation);
+        if(consultationList.size()>0){
+            modelMap.put("success",true);
+            modelMap.put("consultationList",consultationList);
+        }else{
+            modelMap.put("success",false);
+        }
+        return modelMap;
+    }
+
     @RequestMapping(value="/getconsultbydoctor",method = RequestMethod.GET)
     @ResponseBody
     private Map<String,Object> selectbyDoctorId(HttpServletRequest request) {

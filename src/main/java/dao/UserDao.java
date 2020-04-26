@@ -17,7 +17,7 @@ public interface UserDao {
     List<User> selectByDoctorId(long doctorId);
 
     /**
-     * 医生系统条件查询用户的账号 ：可输入的条件有：用户名（模糊），用户张账号状态
+     * 医生系统条件查询用户的账号 ：可输入的条件有：用户名（模糊），用户账号状态
      */
     List<User> queryUserList(@Param("userCondition") User userCondition,@Param("doctorId") long doctorId);
 }
