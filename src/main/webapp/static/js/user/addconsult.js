@@ -21,7 +21,7 @@ $(function () {
             cache:false,
             success:function (data) {
                 if(data.success){
-                    $.toast('提交成功，请到咨询记录等待医生解答');
+                    $.toast('提交成功，可以在问诊记录等待医生解答');
                 }else{
                     $.toast('提交失败！');
                 }

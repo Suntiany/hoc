@@ -24,7 +24,7 @@
     </resultMap>
     <insert id="insert" useGeneratedKeys="true" keyColumn="user_id" keyProperty="userId">
         INSERT INTO tb_user(user_name,email,area_id,addr,gender,enable_status,create_time,last_edit_time,doctor_id,phone)
-        VALUES (#{userName},#{email},#{area.areaId},#{addr},#{gender},#{enableStatus},#{createTime},#{lastEditTime},#{doctorId},#{phone})
+        VALUES (#{userName},#{email},#{area.areaId},#{addr},#{gender},#{enableStatus},#{createTime},#{lastEditTime},#{doctor.doctorId},#{phone})
     </insert>
     <update id="update" parameterType="entity.User">
         update tb_user

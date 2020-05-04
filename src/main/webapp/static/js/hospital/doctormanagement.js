@@ -51,11 +51,7 @@ $(function() {
 							+ '">'
 							+ textOp
 							+ '</a>'
-							+ '<a href="#" class="preview" data-id="'
-							+ item.doctorId
-							+ '" data-status="'
-							+ item.enableStatus
-							+ '">预览</a>'
+
 							+ '</div>'
 							+ '</div>';
 				});

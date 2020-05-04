@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
                 user.setLastEditTime(new Date());
                 userAuth.setUser(user);
                 userAuth.setLastEditTime(new Date());
-                UserAuth oldUserAuth = userAuthDao.queryUserByUserId(2);
+                UserAuth oldUserAuth = userAuthDao.queryUserByUserId(user.getUserId());
                 int effectedNum = userDao.update(user);
                 int effectedNum1 = userAuthDao.updateUserAuth(user.getUserId(),oldUserAuth.getUsername(),oldUserAuth.getPassword(),userAuth.getPassword(),new Date());
                 if(effectedNum<=0||effectedNum1<=0){
