@@ -13,7 +13,7 @@
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
   <properties>
-    <spring.version>4.3.7.RELEASE</spring.version>
+    <spring.version>5.3.19</spring.version>
   </properties>
   <dependencies>
     <dependency>
